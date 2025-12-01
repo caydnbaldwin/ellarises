@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intex</title>
+</head>
+<body>
+    <h1>The index.ejs page</h1>
+    <% if (typeof error_message !== 'undefined' && error_message) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= error_message %>
+        </div>
+    <% } %>
+            
+    <% if (users.length === 0) { %>
+        <div class="alert alert-warning" role="alert">
+            No users found in the database.
+        </div>
+    <% } else { %>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let iCount = 0; iCount < users.length; iCount++) { %>
+                    <tr>
+                        <td><%= users[iCount].userid %></td>
+                        <td><%= users[iCount].username %></td>
+                        <td><%= users[iCount].userpassword %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } %>
+    <br>
+    <h1>Test</h1>
+    <h2>Test 2</h2>
+    <h3>Test 3</h3>
+    
+
+
+
+</body>
+</html>
