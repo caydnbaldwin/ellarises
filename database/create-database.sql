@@ -25,7 +25,7 @@ CREATE TYPE surveynpsbucket_enum AS ENUM ('Detractor', 'Passive', 'Promoter');
 CREATE TABLE Persons (
     PersonID        INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     Email           VARCHAR(255) NOT NULL UNIQUE,
-    Password        VARCHAR(100) NOT NULL UNIQUE,
+    Password        VARCHAR(100) NOT NULL,
     FirstName       VARCHAR(100),
     LastName        VARCHAR(100),
     DateOfBirth     DATE,
