@@ -1,6 +1,19 @@
 const personsService = require('./PersonsService');
 
 class PersonsController {
+  getSignupPage(req, res) {
+    res.render('../views/signup', {errorMessage: null});
+  }
+
+  async postSignup(req, res) {
+    try {
+      await personsService.postSignup(req.body);
+      res.redirect('/persons/login', {errorMessage: null});
+    } catch (error) {
+      res.status(500).render('signup', {errorMessage: error});
+    }
+  }
+
   getLoginPage(req, res) {
     res.render('../views/login', {errorMessage: null});
   };
