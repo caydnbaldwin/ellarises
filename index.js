@@ -3,13 +3,13 @@ require('dotenv').config();
 
 // import express libraries and filestructure traversal
 const express = require('express');
-const path = require('path');
 const session = require('express-session');
 
 // middleware
 const {authMiddleware} = require('./middleware/auth.middleware');
 
 // routes
+const personsRoutes = require('./persons/PersonsRoutes');
 
 // app
 const app = express();
@@ -32,12 +32,13 @@ app.use(
 // session-protection middleware
 app.use(authMiddleware);
 
+// attach route modules
+app.use('/persons', personsRoutes);
+
 // root route
 app.get('/', (req, res) => {
   res.render('index');
 })
-
-// attach route modules
 
 // start server
 const port = process.env.PORT || 3000;
