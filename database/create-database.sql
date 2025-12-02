@@ -29,7 +29,7 @@ CREATE TABLE Persons (
     FirstName       VARCHAR(100),
     LastName        VARCHAR(100),
     DateOfBirth     DATE,
-    Role            role_enum NOT NULL,
+    Role            role_enum NOT NULL DEFAULT 'participant',
     Phone           VARCHAR(25),
     City            VARCHAR(100),
     State           state_enum,
