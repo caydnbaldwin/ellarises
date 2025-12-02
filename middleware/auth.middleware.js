@@ -1,5 +1,6 @@
 function authMiddleware(req, res, next) {
-  const publicPaths = ['/'];
+  const publicPaths = ['/', '/persons/login'];
+  console.log(`${req.method} ${req.url}`);
 
   if (publicPaths.includes(req.path)) {
     return next();
