@@ -29,6 +29,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(express.urlencoded({extended:true}));
+
 // session-protection middleware
 app.use(authMiddleware);
 
