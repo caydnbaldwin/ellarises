@@ -15,12 +15,16 @@
       <h1 class="display-4 text-dark mb-3">Ella Rises</h1>
       <p class="text-muted">Inviting young women to pursue higher education and embrace their heritage by providing culturally rooted programs and educational experiences.</p>
       <p>Welcome, <%= person.firstname %></p>
-      <form action="/persons/logout" method="POST">
-        <button type="submit" class="btn btn-danger">Logout</a>
-      </form>
-      <% if (person.role === 'admin') { %>
-        <a href="/milestones/dashboard" class="btn btn-dark">Dashboard</a>
-      <% } %>
+      <div class="text-center mb-5">
+        <% if (person.role === 'admin') { %>
+          <a href="/milestones/dashboard" class="btn btn-dark">Dashboard</a>
+        <% } %>
+      </div>
+      <div>
+        <form action="/persons/logout" method="POST">
+          <button type="submit" class="btn btn-danger">Logout</a>
+        </form>
+      </div>
     </div>
   </div>
 </body>
