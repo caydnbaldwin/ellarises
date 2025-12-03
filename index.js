@@ -11,6 +11,7 @@ const {authMiddleware} = require('./middleware/auth.middleware');
 // routes
 const personsRoutes = require('./persons/PersonsRoutes');
 const donationsRoutes = require('./donations/DonationsRoutes');
+const milestonesRoutes = require('./milestones/MilestonesRoutes');
 
 // app
 const app = express();
@@ -39,6 +40,7 @@ app.use(authMiddleware);
 // attach route modules
 app.use('/persons', personsRoutes);
 app.use('/donations', donationsRoutes);
+app.use('/milestones', milestonesRoutes);
 
 // root route
 app.get('/', (req, res) => {
