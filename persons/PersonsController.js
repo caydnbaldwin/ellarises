@@ -36,18 +36,26 @@ class PersonsController {
   };
 
   async getOnboardingPage(req, res) {
-    const {states, fieldsOfInterest} = await personsService.getOnboardingPage();
-    res.render('onboarding', {errorMessage: null, states: states, fieldsOfInterest: fieldsOfInterest});
+    try {
+      const {states, fieldsOfInterest} = await personsService.getOnboardingPage();
+      res.render('onboarding', {errorMessage: null, states: states, fieldsOfInterest: fieldsOfInterest});
+    } catch (error) {
+      res.status(500).render('login', {errorMessage: error});
+    }
   };
 
   async postOnboarding(req, res) {
-    const person = await personsService.postOnboarding(req.session.person.personid, req.body);
-    req.session.person = person;
-    res.redirect('/persons/home');
+    try {
+      const person = await personsService.postOnboarding(req.session.person.personid, req.body);
+      req.session.person = person;
+      res.redirect('/persons/home');
+    } catch (error) {
+      res.status(500).render('login', {errorMessage: error});
+    }
   };
 
   getHomePage(req, res) {
-    res.render('home', {errorMessage: null, person: req.session.person[0]});
+    res.render('home', {errorMessage: null, person: req.session.person});
   };
 
   postLogout(req, res) {
