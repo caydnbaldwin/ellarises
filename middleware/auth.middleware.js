@@ -1,11 +1,9 @@
 function authMiddleware(req, res, next) {
-  const publicPaths = ['/', '/persons/signup', '/persons/login', '/donations/donate', '/eggs/teapot'];
   console.log(`${req.method} ${req.url}`);
+  const publicPaths = ['/', '/persons/signup', '/persons/login', '/donations/donate'];
   if (publicPaths.includes(req.path)) {
     return next();
-  }
-
-  if (req.session?.isLoggedIn) {
+  } else if (req.session?.isLoggedIn) {
     return next();
   }
   return res.render('index', {error_message: 'Please log in to access this page'});

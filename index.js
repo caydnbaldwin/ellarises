@@ -12,6 +12,7 @@ const {authMiddleware} = require('./middleware/auth.middleware');
 const personsRoutes = require('./persons/PersonsRoutes');
 const donationsRoutes = require('./donations/DonationsRoutes');
 const eggsRoutes = require('./eggs/EggsRoutes');
+const milestonesRoutes = require('./milestones/MilestonesRoutes');
 
 // app
 const app = express();
@@ -41,6 +42,7 @@ app.use(authMiddleware);
 app.use('/persons', personsRoutes);
 app.use('/donations', donationsRoutes);
 app.use('/eggs', eggsRoutes);
+app.use('/milestones', milestonesRoutes);
 
 // root route
 app.get('/', (req, res) => {

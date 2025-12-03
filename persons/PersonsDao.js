@@ -25,9 +25,9 @@ class PersonsDao {
     return {states, fieldsOfInterest};
   };
 
-  async postOnboarding(email, firstname, lastname, dateofbirth, phone, city, state, zipcode, organization, fieldofinterest) {
+  async postOnboarding(personid, firstname, lastname, dateofbirth, phone, city, state, zipcode, organization, fieldofinterest) {
     return await knex('persons')
-      .where('email', email)
+      .where('personid', personid)
       .update({
         firstname, 
         lastname, 
