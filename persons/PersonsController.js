@@ -22,7 +22,7 @@ class PersonsController {
     try {
       const person = await personsService.postLogin(req.body);
       req.session.isLoggedIn = true;
-      req.session.user = person;
+      req.session.person = person;
       if (person.firstname) {
         res.render('home', {errorMessage: null, person: person});
       } else {
@@ -40,6 +40,7 @@ class PersonsController {
 
   async postOnboarding(req, res) {
     const person = await personsService.postOnboarding(req.body);
+    req.session.person = person;
     res.render('home', {errorMessage: null, person: person});
   };
 
