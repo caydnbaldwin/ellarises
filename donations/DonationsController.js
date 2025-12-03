@@ -2,7 +2,7 @@ const donationsService = require('./DonationsService');
 
 class DonationsController {
   getDonatePage(req, res) {
-    res.redirect('https://givebutter.com/EllaRises');
+    res.render('donate', {errorMessage: null});
   };
 };
 
