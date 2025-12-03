@@ -1,10 +1,12 @@
 const personsDao = require("./PersonsDao");
 
 class PersonsService {
+  // [TODO] Hash passwords
   async postSignup(formData) {
     try {
       const {email, password} = formData;
-      return await personsDao.postSignup(email, password);
+      const person = await personsDao.postSignup(email, password);
+      return person[0];
     } catch (error) {
       throw error;
     };
@@ -40,7 +42,8 @@ class PersonsService {
     try {
       const personid = personId;
       const {firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest} = formData;
-      return await personsDao.postOnboarding(personid, firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest);
+      const person = await personsDao.postOnboarding(personid, firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest);
+      return person[0];
     } catch (error) {
       throw error;
     };
