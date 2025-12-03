@@ -6,6 +6,8 @@ router.get('/signup', personsController.getSignupPage);
 router.post('/signup', personsController.postSignup);
 router.get('/login', personsController.getLoginPage);
 router.post('/login', personsController.postLogin);
+router.get('/onboarding', personsController.getOnboardingPage);
+router.post('/onboarding', personsController.postOnboarding);
 router.post('/logout', personsController.postLogout);
 
 module.exports = router;
