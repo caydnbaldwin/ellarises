@@ -2,20 +2,22 @@ const personsService = require('./PersonsService');
 
 class PersonsController {
   getSignupPage(req, res) {
-    res.render('../views/signup', {errorMessage: null});
+    res.render('signup', {errorMessage: null});
   };
 
   async postSignup(req, res) {
     try {
-      await personsService.postSignup(req.body);
-      res.redirect('/persons/login');
+      const person = await personsService.postSignup(req.body);
+      req.session.isLoggedIn = true;
+      req.session.person = person;
+      res.redirect('/persons/onboarding');
     } catch (error) {
       res.status(500).render('signup', {errorMessage: error});
     };
   };
 
   getLoginPage(req, res) {
-    res.render('../views/login', {errorMessage: null});
+    res.render('login', {errorMessage: null});
   };
 
   async postLogin(req, res) {
@@ -35,13 +37,17 @@ class PersonsController {
 
   async getOnboardingPage(req, res) {
     const {states, fieldsOfInterest} = await personsService.getOnboardingPage();
-    res.render('../views/onboarding', {errorMessage: null, states: states, fieldsOfInterest: fieldsOfInterest});
+    res.render('onboarding', {errorMessage: null, states: states, fieldsOfInterest: fieldsOfInterest});
   };
 
   async postOnboarding(req, res) {
-    const person = await personsService.postOnboarding(req.body);
+    const person = await personsService.postOnboarding(req.session.person.personid, req.body);
     req.session.person = person;
-    res.render('home', {errorMessage: null, person: person});
+    res.redirect('/persons/home');
+  };
+
+  getHomePage(req, res) {
+    res.render('home', {errorMessage: null, person: req.session.person[0]});
   };
 
   postLogout(req, res) {

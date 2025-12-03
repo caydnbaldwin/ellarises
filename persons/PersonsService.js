@@ -36,11 +36,11 @@ class PersonsService {
     };
   };
 
-  async postOnboarding(formData) {
+  async postOnboarding(personId, formData) {
     try {
-      console.log('PersonsService -> formData:', formData)
-      const {email, firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest} = formData;
-      return await personsDao.postOnboarding(email, firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest);
+      const personid = personId;
+      const {firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest} = formData;
+      return await personsDao.postOnboarding(personid, firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest);
     } catch (error) {
       throw error;
     };
