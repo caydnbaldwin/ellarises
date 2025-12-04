@@ -26,7 +26,7 @@ class PersonsController {
       req.session.isLoggedIn = true;
       req.session.person = person;
       if (person.firstname) {
-        res.render('home', {errorMessage: null, person: person});
+        res.render('index', {errorMessage: null, person: person});
       } else {
         res.redirect('/persons/onboarding');
       };
@@ -48,7 +48,7 @@ class PersonsController {
     try {
       const person = await personsService.postOnboarding(req.session.person.personid, req.body);
       req.session.person = person;
-      res.redirect('/persons/home');
+      res.render('index', {errorMessage: null, person: person});
     } catch (error) {
       res.status(500).render('login', {errorMessage: error});
     }
@@ -58,7 +58,7 @@ class PersonsController {
     res.render('home', {errorMessage: null, person: req.session.person});
   };
 
-  postLogout(req, res) {
+  getLogout(req, res) {
     req.session.destroy();
     res.clearCookie('connect.sid');
     res.redirect('/');

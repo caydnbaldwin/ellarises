@@ -28,7 +28,7 @@
         <li class="nav-item">
           <a class="nav-link fs-3" href="/donations/donate" style="color: var(--color-dark);">Donate</a>
         </li>
-        <% if (user) { %>
+        <% if (typeof person !== 'undefined' && person) { %>
           <li class="nav-item">
             <a class="nav-link fs-3" href="/persons/participants" style="color: var(--color-dark);">Participants</a>
           </li>
@@ -44,7 +44,7 @@
           <li class="nav-item">
             <a class="nav-link fs-3" href="/donations/donations" style="color: var(--color-dark);">Donations</a>
           </li>
-          <% if (user.role === 'admin') { %>
+          <% if (typeof person !== 'undefined' && person && person.role === 'admin') { %>
             <li class="nav-item">
               <a class="nav-link fs-3" href="/persons/user" style="color: var(--color-dark);">Users</a>
             </li>
