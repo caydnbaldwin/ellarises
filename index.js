@@ -49,7 +49,7 @@ app.use('/milestones', milestonesRoutes);
 
 // root route
 app.get('/', (req, res) => {
-  res.render('index', {user: null});
+  res.render('index', {errorMessage: null, person: req.session.person ? req.session.person : null});
 })
 
 // teapot route
