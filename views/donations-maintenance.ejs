@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Donations Maintenance</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 mb-0">Donations Maintenance</h1>
+            <a href="/donations" class="btn btn-sm btn-secondary">Back</a>
+        </div>
+        <% if (typeof donations !== 'undefined' && donations && donations.length) { %>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Amount (USD)</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% donations.forEach(function(d, idx) { %>
+                            <tr>
+                                <td><%= d.id || d._id || (idx + 1) %></td>
+                                <td><%= d.email || '-' %></td>
+                                <td>$<%= (Number(d.donationAmount) || 0).toFixed(2) %></td>
+                                <td><%= d.createdAt ? new Date(d.createdAt).toLocaleString() : (d.date ? new Date(d.date).toLocaleString() : '-') %></td>
+                                <td>
+                                    <a href="/donations/<%= d.id || d._id %>/edit" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    <form action="/donations/<%= d.id || d._id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this donation?');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info">No donations found.</div>
+        <% } %>
+    </div>
+    <script>
+        // Lightweight: if you prefer JS-driven delete (AJAX), implement here.
+    </script>
+</body>
+</html>
