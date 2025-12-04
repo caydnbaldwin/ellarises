@@ -17,6 +17,9 @@ const milestonesRoutes = require('./milestones/MilestonesRoutes');
 // app
 const app = express();
 
+// import public directory
+app.use(express.static('public'));
+
 // view engine setup
 app.set('view engine', 'ejs');
 
@@ -46,7 +49,7 @@ app.use('/milestones', milestonesRoutes);
 
 // root route
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', {user: null});
 })
 
 // teapot route
