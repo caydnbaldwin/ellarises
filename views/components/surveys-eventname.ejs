@@ -1,0 +1,9 @@
+<form action="/surveys/:eventname" method="get">
+    <label for="eventname" class="form-label">Event Name</label>
+    <select name="eventname" id="eventname" required>
+        <option value="" disabled selected>Select an event</option>
+        <% for (const eventname of eventnames) { %>
+            <option value="<%= eventname.eventname %>"><%= eventname.eventname %></option>
+        <% } %>
+    </select>
+</form>

@@ -9,6 +9,6 @@ router.post('/login', personsController.postLogin);
 router.get('/onboarding', personsController.getOnboardingPage);
 router.post('/onboarding', personsController.postOnboarding);
 router.get('/home', personsController.getHomePage);
-router.post('/logout', personsController.postLogout);
+router.get('/logout', personsController.getLogout);
 
 module.exports = router;
