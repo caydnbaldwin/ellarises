@@ -43,13 +43,12 @@
         <div class="col-md-8 col-lg-6">
 
           <div class="auth-card p-4 p-md-5 mx-auto" style="max-width:720px;">
-            <div class="text-center mb-3 px-2">
-              <h2 style="font-family:'DM Serif Display',serif; color:var(--c2);">Welcome Back</h2>
-              <p class="tiny-muted">We're glad you're here — sign in to continue.</p>
+            <div class="text-center mb-3">
+              <h2 style="font-family:'DM Serif Display',serif; color:var(--c2);">Login</h2>
+              <p class="tiny-muted">We're glad you're here - sign in to continue.</p>
             </div>
 
-            <div class="p-2 p-md-4">
-              <h3 class="mb-3">Log In</h3>
+            <div class="mx-auto">
               <% if (errorMessage && errorMessage !== '') { %>
                 <div class="alert alert-danger text-center" role="alert" id="errorMessage">
                   <%= errorMessage %>
