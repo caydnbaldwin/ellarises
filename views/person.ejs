@@ -21,7 +21,7 @@
       </div>
 
       <div class="card-body">
-        <form action="/persons/edit/<%= person.personid %>" method="post" class="row g-3">
+        <form action="/persons/mi/<%= person.personid %>" method="post" class="row g-3">
 
         <div class="col-md-4">
           <label for="password" class="form-label">Password</label>
@@ -129,7 +129,7 @@
                 return;
             }
             try {
-                const response = await fetch(`/persons/delete/${personid}`, {
+                const response = await fetch(`/persons/mi/${personid}`, {
                     method: 'DELETE'
                 });
                 if (!response.ok) {
@@ -141,8 +141,6 @@
                 alert(error.message);
             }
         };
-    
-
     </script>
 </body>
 </html>
