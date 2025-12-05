@@ -2,8 +2,8 @@
     <label for="eventname" class="form-label">Event Name</label>
     <select name="eventname" id="eventname" required>
         <option value="" disabled selected>Select an event</option>
-        <% for (const event of events) { %>
-            <option value="<%= event.eventname %>"><%= event.eventname %></option>
+        <% for (const eventinstance of eventinstances) { %>
+            <option value="<%= eventinstance.eventname %>"><%= eventinstance.eventname %></option>
         <% } %>
     </select>
     <button type="submit">Search</button>
