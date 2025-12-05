@@ -24,7 +24,13 @@ class DonationsDao {
         donationamount
       })
       .returning('*');
-  }
+  };
+
+  async getDonationsPage() {
+    return await knex
+      .select('*')
+      .from('donations');
+  };
 };
 
 module.exports = new DonationsDao();

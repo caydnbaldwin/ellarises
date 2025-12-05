@@ -26,6 +26,10 @@ class DonationsService {
       throw error;
     };
   };
+
+  async getDonationsPage() {
+    return await donationsDao.getDonationsPage();
+  }
 };
 
 module.exports = new DonationsService();
