@@ -1,3 +1,6 @@
+<!-- This is where new users with new accounts will fill out the rest of their account information.
+ They will fill it out with their city, state, zip, date of birth, phone, organization, and field of interest. -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +58,8 @@
               <%= errorMessage %>
             </div>
           <% } %>
+
+          <!-- The form where they fill out their uesr information to be stored in the database -->
           <form action="/persons/onboarding" method="POST" class="needs-validation">
             <div class="mb-3">
               <label for="firstName" class="form-label">First Name</label>

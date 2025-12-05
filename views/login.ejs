@@ -1,3 +1,7 @@
+<!-- This is the login page. A user that already has an account inputs their username and password
+ which are checked against those in the database. A session is then created. The user has the option
+ to sign up if they haven't already.  -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +59,7 @@
                   <%= errorMessage %>
                 </div>
               <% } %>
+              <!-- The form where the user signs in  -->
               <form action="/persons/login" method="POST">
                 
 
@@ -71,7 +76,7 @@
                 <div class="d-grid mb-2">
                   <button type="submit" class="btn btn-lg text-white" style="background-color: #F9AFB1; border-color: #F9AFB1;">Login</button>
                 </div>
-
+<!-- Where the user can sign up if they haven't -->
                 <div class="text-center">
                   <p class="tiny-muted mb-0">Don't have an account? <a href="/persons/signup" style="color:var(--c2); font-weight:600; text-decoration:none;">Sign Up</a></p>
                 </div>
@@ -81,6 +86,7 @@
         </div>
       </div>
     </div>
+    <!-- Another I'm a teapot! -->
     <div style="bottom:0; width:100%; background:transparent;">
       <center><p>&copy; 2025 Bromunity Studios <a href="/eggs/teapot" style="text-decoration:none; color:var(--c7);">☕</a></p></center>
     </div>
