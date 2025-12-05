@@ -27,17 +27,18 @@ class PersonsDao {
   };
 
   async postOnboarding(personid, firstname, lastname, dateofbirth, phone, city, state, zipcode, organization, fieldofinterest) {
+    const normalizedDob = (dateofbirth === '' || dateofbirth === undefined) ? null : dateofbirth;
     return await knex('persons')
       .where('personid', personid)
       .update({
-        firstname, 
-        lastname, 
-        dateofbirth, 
-        phone, 
-        city, 
-        state, 
-        zipcode, 
-        organization, 
+        firstname,
+        lastname,
+        dateofbirth: normalizedDob,
+        phone,
+        city,
+        state,
+        zipcode,
+        organization,
         fieldofinterest
       })
       .returning('*');
@@ -57,11 +58,12 @@ class PersonsDao {
   };
 
   async postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest) {
+    // Insert only non-empty values; always include email
     const insertData = { email };
     if (password !== undefined) insertData.password = password;
     if (firstname !== undefined) insertData.firstname = firstname;
     if (lastname !== undefined) insertData.lastname = lastname;
-    if (dateofbirth !== undefined) insertData.dateofbirth = dateofbirth;
+    if (dateofbirth !== undefined) insertData.dateofbirth = (dateofbirth === '' ? null : dateofbirth);
     if (role !== undefined) insertData.role = role;
     if (phone !== undefined) insertData.phone = phone;
     if (city !== undefined) insertData.city = city;
@@ -74,7 +76,7 @@ class PersonsDao {
     const updateData = {};
     for (const [key, value] of Object.entries(insertData)) {
       if (key === 'email') continue; // do not update unique key
-      if (value !== undefined) updateData[key] = value;
+      if (value) updateData[key] = value;
     }
 
     const person = await knex('persons')
@@ -82,11 +84,13 @@ class PersonsDao {
       .onConflict('email')
       .merge(updateData)
       .returning('*');
+    const roles = await knex
+      .raw('SELECT unnest(enum_range(NULL::role_enum)) AS role');
     const states = await knex
       .raw('SELECT unnest(enum_range(NULL::state_enum)) AS state');
     const fieldsofinterest = await knex
       .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
-    return {person, states, fieldsofinterest};
+    return {person, roles, states, fieldsofinterest};
   }
 
   async getPerson(personid) {

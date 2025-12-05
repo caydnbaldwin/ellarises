@@ -1,19 +1,19 @@
 <form action="/persons/person" method="POST" class="row g-3">
 	<div class="col-md-3">
 		<label for="email" class="form-label">Email</label>
-		<input type="email" id="email" name="email" class="form-control" required>
+		<input type="email" id="email" name="email" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="password" class="form-label">Password</label>
-		<input type="password" id="password" name="password" class="form-control" required>
+		<input type="password" id="password" name="password" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="firstname" class="form-label">First Name</label>
-		<input type="text" id="firstname" name="firstname" class="form-control" required>
+		<input type="text" id="firstname" name="firstname" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="lastname" class="form-label">Last Name</label>
-		<input type="text" id="lastname" name="lastname" class="form-control" required>
+		<input type="text" id="lastname" name="lastname" class="form-control">
 	</div>
 
 	<div class="col-md-3">
@@ -22,7 +22,7 @@
 	</div>
 	<div class="col-md-3">
 		<label for="role" class="form-label">Role</label>
-		<select name="role" id="role" class="form-select" required>
+		<select name="role" id="role" class="form-select">
 			<option value="" disabled selected>Select a role</option>
 			<% for (const role of roles) { %>
 				<option value="<%= role.role %>"><%= role.role %></option>
@@ -39,7 +39,7 @@
 	</div>
 	<div class="col-md-3">
 		<label for="state" class="form-label">State</label>
-		<select name="state" id="state" class="form-select" required>
+		<select name="state" id="state" class="form-select">
 			<option value="" disabled selected>Select a state</option>
 			<% for (const state of states) { %>
 				<option value="<%= state.state %>"><%= state.state %></option>
@@ -56,7 +56,7 @@
 	</div>
 	<div class="col-md-3">
 		<label for="fieldofinterest" class="form-label">Field of Interest</label>
-		<select name="fieldofinterest" id="fieldofinterest" class="form-select" required>
+		<select name="fieldofinterest" id="fieldofinterest" class="form-select" >
 			<option value="" disabled selected>Select a field</option>
 			<% for (const fieldofinterest of fieldsofinterest) { %>
 				<option value="<%= fieldofinterest.fieldofinterest %>"><%= fieldofinterest.fieldofinterest %></option>
