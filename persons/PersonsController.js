@@ -60,17 +60,23 @@ class PersonsController {
 
   async getPersons(req, res) {
     const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
-    console.log('roles:', roles);
-    console.log('states:', states);
-    console.log('fieldsofinterest:', fieldsofinterest);
     res.render('persons', {errorMessage: null, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
   };
-
+  
   async getPerson(req, res) {
     const person = await personsService.getPerson(req.params.personid);
     res.render('person', {errorMessage: null, person: person});
   };
-
+  
+  async postPerson(req, res) {
+    try {
+      const person = await personsService.postPerson(req.body);
+      res.render('person', {errorMessage: null, person: person});
+    } catch (error) {
+      res.redirect('/persons/persons');
+    }
+  }
+  
   async deletePerson(req, res) {
     try {
       const person = await personsService.deletePerson(req.params.personid);

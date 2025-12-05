@@ -1,11 +1,12 @@
 const knex = require('../database/database');
 
 class PersonsDao {
-  async postSignup(email, password) {
+  async postSignup(email, password, role='participant') {
     return await knex('persons')
       .insert({
         email,
-        password
+        password,
+        role
       })
       .returning('*');
   }
@@ -54,6 +55,25 @@ class PersonsDao {
       .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
     return {persons, roles, states, fieldsofinterest};
   };
+
+  async postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest) {
+    return await knex('persons')
+      .insert({
+        email, 
+        password, 
+        firstname, 
+        lastname, 
+        dateofbirth, 
+        role, 
+        phone, 
+        city, 
+        state, 
+        zipcode, 
+        organization, 
+        fieldofinterest
+      })
+      .returning('*');
+  }
 
   async getPerson(personid) {
     return await knex

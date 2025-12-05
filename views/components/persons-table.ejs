@@ -1,5 +1,6 @@
-<table class="table table-striped table-hover persons-table w-auto mx-auto">
-  <thead class="table">
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle">
+    <thead class="table-light">
     <tr>
       <th scope="col">Person ID</th>
       <th scope="col">Email</th>
@@ -15,64 +16,65 @@
       <th scope="col">Organization</th>
       <th scope="col">Field of Interest</th>
       <th scope="col">Total Donations</th>
-      <th scope="col" style="width:90px;">Edit</th>
-      <th scope="col" style="width:90px;">Delete</th>
+      <th scope="col" class="text-center">Edit</th>
+      <th scope="col" class="text-center">Delete</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <% for (person of persons) { %>
       <tr>
-        <td scope="row">
+        <td>
           <%= person.personid %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.email %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.password %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.firstname %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.lastname %>
         </td>
-        <td scope="row">
+        <td>
           <%= new Date(person.dateofbirth).toLocaleDateString() %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.role %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.phone %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.city %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.state %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.zipcode %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.organization %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.fieldofinterest %>
         </td>
-        <td scope="row">
+        <td>
           <%= person.totaldonations %>
         </td>
-        <td scope="row" class="action-cell">
-          <form action="/persons/mi/<%= person.personid%>" method="GET">
-            <button type="submit">Edit</button>
+        <td class="text-center">
+          <form action="/persons/mi/<%= person.personid%>" method="GET" class="d-inline">
+            <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
           </form>
         </td>
-        <td scope="row" class="action-cell">
-          <button onclick="deletePerson('<%= person.personid %>')">Delete</button>
+        <td class="text-center">
+          <button class="btn btn-sm btn-outline-danger" onclick="deletePerson('<%= person.personid %>')">Delete</button>
         </td>
       </tr>
     <% } %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

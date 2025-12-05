@@ -66,6 +66,16 @@ class PersonsService {
     };
   };
 
+  async postPerson(formData) {
+    try {
+      const {email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest} = formData;
+      const person = await personsDao.postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest);
+      return person[0];
+    } catch (error) {
+      throw error;
+    };
+  };
+
   async deletePerson(personid) {
     try {
       const person = await personsDao.deletePerson(personid);

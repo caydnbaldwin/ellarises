@@ -10,6 +10,7 @@ router.get('/onboarding', personsController.getOnboardingPage);
 router.post('/onboarding', personsController.postOnboarding);
 router.get('/home', personsController.getHomePage);
 router.get('/persons', personsController.getPersons);
+router.post('/person', personsController.postPerson);
 router.get('/mi/:personid', personsController.getPerson);
 router.delete('/mi/:personid', personsController.deletePerson);
 router.get('/logout', personsController.getLogout);
