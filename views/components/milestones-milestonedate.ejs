@@ -1,5 +1,9 @@
-<form onsubmit="event.preventDefault(); window.location.href='/milestones/milestonedate/' + document.getElementById('milestonedate').value;">
-    <label for="milestonedate">Search for a specific milestone by date</label>
-    <input type="date" id="milestonedate" name="milestonedate">
-    <button type="submit">Search</button>
+<form class="row g-2 align-items-end" onsubmit="return handleMilestoneFilter(event, 'search-milestone-date', '/milestones/milestonedate/');">
+    <div class="col">
+        <label for="search-milestone-date" class="form-label">Milestone Date</label>
+        <input type="date" id="search-milestone-date" name="milestonedate" class="form-control" required>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
 </form>
