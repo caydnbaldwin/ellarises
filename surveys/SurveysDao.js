@@ -55,6 +55,15 @@ class SurveysDao {
       .select('*')
       .where('eventtype', eventtype);
   }
+
+  async deleteSurvey(personid, eventstart, eventid) {
+    return await knex('survey')
+      .where('personid', personid)
+      .andWhere('eventstart', eventstart)
+      .andWhere('eventid', eventid)
+      .del()
+      .returning('*');
+  }
 };
 
 module.exports = new SurveysDao();
