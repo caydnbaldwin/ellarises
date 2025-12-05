@@ -27,19 +27,22 @@ class PersonsDao {
   };
 
   async postOnboarding(personid, firstname, lastname, dateofbirth, phone, city, state, zipcode, organization, fieldofinterest) {
+    // Build update object only with values that are present
+    const updateData = {};
+    if (firstname) updateData.firstname = firstname;
+    if (lastname) updateData.lastname = lastname;
+    // Only update date if provided (non-empty) to avoid invalid date
+    if (dateofbirth) updateData.dateofbirth = dateofbirth;
+    if (phone) updateData.phone = phone;
+    if (city) updateData.city = city;
+    if (state) updateData.state = state;
+    if (zipcode) updateData.zipcode = zipcode;
+    if (organization) updateData.organization = organization;
+    if (fieldofinterest) updateData.fieldofinterest = fieldofinterest;
+
     return await knex('persons')
       .where('personid', personid)
-      .update({
-        firstname, 
-        lastname, 
-        dateofbirth, 
-        phone, 
-        city, 
-        state, 
-        zipcode, 
-        organization, 
-        fieldofinterest
-      })
+      .update(updateData)
       .returning('*');
   };
 
@@ -57,24 +60,26 @@ class PersonsDao {
   };
 
   async postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest) {
+    // Insert only non-empty values; always include email
     const insertData = { email };
-    if (password !== undefined) insertData.password = password;
-    if (firstname !== undefined) insertData.firstname = firstname;
-    if (lastname !== undefined) insertData.lastname = lastname;
-    if (dateofbirth !== undefined) insertData.dateofbirth = dateofbirth;
-    if (role !== undefined) insertData.role = role;
-    if (phone !== undefined) insertData.phone = phone;
-    if (city !== undefined) insertData.city = city;
-    if (state !== undefined) insertData.state = state;
-    if (zipcode !== undefined) insertData.zipcode = zipcode;
-    if (organization !== undefined) insertData.organization = organization;
-    if (fieldofinterest !== undefined) insertData.fieldofinterest = fieldofinterest;
+    if (password) insertData.password = password;
+    if (firstname) insertData.firstname = firstname;
+    if (lastname) insertData.lastname = lastname;
+    // Only insert date if provided and non-empty
+    if (dateofbirth) insertData.dateofbirth = dateofbirth;
+    if (role) insertData.role = role;
+    if (phone) insertData.phone = phone;
+    if (city) insertData.city = city;
+    if (state) insertData.state = state;
+    if (zipcode) insertData.zipcode = zipcode;
+    if (organization) insertData.organization = organization;
+    if (fieldofinterest) insertData.fieldofinterest = fieldofinterest;
 
     // Build update set only for provided fields (excluding email)
     const updateData = {};
     for (const [key, value] of Object.entries(insertData)) {
       if (key === 'email') continue; // do not update unique key
-      if (value !== undefined) updateData[key] = value;
+      if (value) updateData[key] = value;
     }
 
     const person = await knex('persons')
@@ -82,11 +87,13 @@ class PersonsDao {
       .onConflict('email')
       .merge(updateData)
       .returning('*');
+    const roles = await knex
+      .raw('SELECT unnest(enum_range(NULL::role_enum)) AS role');
     const states = await knex
       .raw('SELECT unnest(enum_range(NULL::state_enum)) AS state');
     const fieldsofinterest = await knex
       .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
-    return {person, states, fieldsofinterest};
+    return {person, roles, states, fieldsofinterest};
   }
 
   async getPerson(personid) {

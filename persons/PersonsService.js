@@ -69,8 +69,8 @@ class PersonsService {
   async postPerson(formData) {
     try {
       const {email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest} = formData;
-      const {person, states, fieldsofinterest} = await personsDao.postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest);
-      return {person: person[0], states: states.rows, fieldsofinterest: fieldsofinterest.rows};
+      const {person, roles, states, fieldsofinterest} = await personsDao.postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest);
+      return {person: person[0], roles: roles.rows, states: states.rows, fieldsofinterest: fieldsofinterest.rows};
     } catch (error) {
       throw error;
     };
