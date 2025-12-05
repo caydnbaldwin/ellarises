@@ -6,8 +6,16 @@ class DonationsController {
   };
 
   async postDonate(req, res) {
-    const {person, donation} = await donationsService.postDonate(req.body);
-    res.redirect('/');
+    try {
+      const {person, donation} = await donationsService.postDonate(req.body);
+      res.redirect('/');
+    } catch (error) {
+      res.status(500).render('donate', {
+        errorMessage: 'We could not process your donation right now. Please try again later.',
+        person: null,
+        donation: null
+      });
+    }
   }
 };
 
