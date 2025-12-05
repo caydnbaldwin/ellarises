@@ -5,7 +5,7 @@ class MilestonesController {
     try {
       if (req.session.isLoggedIn) {
         const milestones = await milestonesService.getMilestonesPage();
-        res.render('milestones', {errorMessage: null, person: req.session.person, milestones: milestones});
+        res.render('milestones', {errorMessage: null, session: req.session, person: req.session.person, milestones: milestones});
       } else {
         res.render('login', { errorMessage: 'Please login to access this page.', session: null});
       };
