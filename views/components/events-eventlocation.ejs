@@ -1,0 +1,10 @@
+<form onsubmit="event.preventDefault(); window.location.href='/events/eventlocation/' + document.getElementById('eventlocation').value;">
+    <label for="eventlocation" class="form-label">Event Location</label>
+    <select name="eventlocation" id="eventlocation" required>
+        <option value="" disabled selected>Select an event location</option>
+        <% for (const event of events) { %>
+            <option value="<%= event.eventlocation %>"><%= event.eventlocation %></option>
+        <% } %>
+    </select>
+    <button type="submit">Search</button>
+</form>
