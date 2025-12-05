@@ -27,9 +27,10 @@ class DonationsDao {
   };
 
   async getDonationsPage() {
-    return await knex
-      .select('*')
-      .from('donations');
+    return await knex("donations")
+    .select("*")
+    .innerJoin("persons", "persons.personid", "donations.personid");
+
   };
 };
 
