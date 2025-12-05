@@ -16,7 +16,9 @@ class DonationsController {
   async postDonate(req, res) {
     try {
       const {person, donation} = await donationsService.postDonate(req.body);
-      res.redirect('/');
+      req.session.isLoggedIn = true;
+      req.session.person = person;
+      res.redirect('/donations/donations')
     } catch (error) {
       res.status(500).render('donate', {
         errorMessage: 'We could not process your donation right now. Please try again later.',
