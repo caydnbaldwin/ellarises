@@ -11,10 +11,10 @@
       <th scope="col">Instructor Score</th>
       <th scope="col">Recommendation Score</th>
       <th scope="col">Overall Score</th>
-      <% if (person.role ==="M" ) {%>
+      <% if (person.role ==="admin" ) {%>
         <th scope="col" style="width:80px;">Edit</th>
         <th scope="col" style="width:90px;">Delete</th>
-        <%}%>
+      <%}%>
     </tr>
   </thead>
   <tbody>
@@ -33,7 +33,7 @@
           <%= survey.eventname %>
         </td>
         <td scope="row">
-          <%= survey.eventstart %>
+          <%= new Date(survey.eventstart).toLocaleDateString() %>
         </td>
         <td scope="row">
           <%= survey.surveysatisfactionscore %>
@@ -50,9 +50,9 @@
         <td scope="row">
           <%= survey.surveyoverallscore %>
         </td>
-        <% if (person.role ==="M" ) {%>
+        <% if (person.role ==="admin" ) {%>
           <td scope="row" class="action-cell">
-            <form action="/surveys/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
+            <form action="/surveys/edit/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
               <input type="submit" name="edit" value="Edit" />
             </form>
           </td>

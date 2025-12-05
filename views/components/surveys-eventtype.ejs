@@ -1,9 +1,10 @@
-<form action="/surveys/:eventtype" method="get">
-    <label for="eventtype" class="form-label">Event Name</label>
+<form action="/surveys/byeventtype>" method="get">
+    <label for="eventtype" class="form-label">Event Type</label>
     <select name="eventtype" id="eventtype" required>
         <option value="" disabled selected>Select an event</option>
         <% for (const survey of surveys) { %>
             <option value="<%= survey.eventtype %>"><%= survey.eventtype %></option>
         <% } %>
     </select>
+    <button type="submit">Search</button>
 </form>

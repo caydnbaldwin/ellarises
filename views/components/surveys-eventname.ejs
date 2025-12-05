@@ -1,4 +1,4 @@
-<form action="/surveys/:eventname" method="get">
+<form action="/surveys/byeventname" method="get">
     <label for="eventname" class="form-label">Event Name</label>
     <select name="eventname" id="eventname" required>
         <option value="" disabled selected>Select an event</option>
@@ -6,4 +6,5 @@
             <option value="<%= survey.eventname %>"><%= survey.eventname %></option>
         <% } %>
     </select>
+    <button type="submit">Search</button>
 </form>
