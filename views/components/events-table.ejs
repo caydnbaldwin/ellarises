@@ -1,42 +1,86 @@
-<div class="overflow-auto" style="max-height: 65vh;">
-  <div class="table-responsive">
-<table class="table table-hover align-middle mb-0 events-table w-auto mx-auto">
-  <thead class="bg-danger-subtle text-danger-emphasis">
-    <tr>
-      <th scope="col">Event Name</th>
-      <th scope="col">Event Type</th>
-      <th scope="col">Event Date</th>
-      <th scope="col">Event Location</th>
-      <% if (session.person.role ==="admin" ) {%>
-        <th scope="col" class="text-end" style="width:180px;">Actions</th>
-      <%}%>
-    </tr>
-  </thead>
-  <tbody>
-    <% for (eventinstance of eventinstances) { %>
-      <tr>
-        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= eventinstance.eventname %></div></td>
-        <td class="text-nowrap"><%= eventinstance.eventtype %></td>
-        <td scope="row">
-          <%= new Date(eventinstance.eventstart).toLocaleDateString() %>
-        </td>
-        <td scope="row">
-          <%= eventinstance.eventlocation %>
-        </td>
-        <% if (session.person.role ==="admin" ) {%>
-          <td>
-            <div class="d-flex justify-content-end gap-2">
-              <form action="/events/edit/<%= eventinstance.eventid%>/<%= eventinstance.eventstart%>" method="GET">
-                <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-secondary" />
-              </form>
-              <button class="btn btn-sm btn-outline-danger" onclick="deleteevent('<%= eventinstance.eventid %>', '<%= eventinstance.eventstart %>')">Delete</button>
-            </div>
-          </td>
-          
-        <%}%>
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="bg-danger-subtle text-danger-emphasis">
+      <tr class="text-uppercase small">
+        <th scope="col">Event Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
+        <th scope="col">Location</th>
+        <% if (currentUser?.role === 'admin') { %>
+          <th scope="col" class="text-end">Actions</th>
+        <% } %>
       </tr>
-    <% } %>
-  </tbody>
-</table>
-  </div>
+    </thead>
+    <tbody>
+      <% eventinstances.forEach(function(eventinstance) { %>
+        <tr>
+          <td class="fw-semibold text-nowrap">
+            <div class="text-danger-emphasis"><%= eventinstance.eventname %></div>
+          </td>
+          <td class="text-nowrap">
+            <% if (eventinstance.eventtype) { %>
+              <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis"><%= eventinstance.eventtype %></span>
+            <% } else { %>
+              <span class="text-muted">—</span>
+            <% } %>
+          </td>
+          <td class="text-nowrap">
+            <% const eventStart = eventinstance.eventstart ? new Date(eventinstance.eventstart) : null; %>
+            <% if (eventStart && !Number.isNaN(eventStart.getTime())) { %>
+              <%= eventStart.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %>
+            <% } else { %>
+              <span class="text-muted">—</span>
+            <% } %>
+          </td>
+          <td class="text-nowrap">
+            <% const eventEnd = eventinstance.eventend ? new Date(eventinstance.eventend) : null; %>
+            <% if (eventEnd && !Number.isNaN(eventEnd.getTime())) { %>
+              <%= eventEnd.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %>
+            <% } else { %>
+              <span class="text-muted">—</span>
+            <% } %>
+          </td>
+          <td>
+            <% if (eventinstance.eventlocation) { %>
+              <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis"><%= eventinstance.eventlocation %></span>
+            <% } else { %>
+              <span class="text-muted">—</span>
+            <% } %>
+          </td>
+          <% if (currentUser?.role === 'admin') { %>
+            <td>
+              <div class="d-flex justify-content-end gap-2">
+                <form action="/events/edit/<%= eventinstance.eventid %>/<%= eventinstance.eventstart %>" method="GET" class="m-0">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </form>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteEvent('<%= eventinstance.eventid %>', '<%= eventinstance.eventstart %>')">Delete</button>
+              </div>
+            </td>
+          <% } %>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
 </div>
+<script>
+  async function deleteEvent(eventId, eventStart) {
+    if (!confirm('Are you sure you want to delete this event?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/events/delete/${eventId}/${eventStart}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete event.');
+      }
+
+      window.location.reload();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+</script>

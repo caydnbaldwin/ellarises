@@ -1,5 +1,9 @@
-<form onsubmit="event.preventDefault(); window.location.href='/events/eventstart/' + document.getElementById('eventstart').value;">
-    <label for="eventstart">Search for a specific event by date</label>
-    <input type="date" id="eventstart" name="eventstart">
-    <button type="submit">Search</button>
+<form class="row g-2 align-items-end" onsubmit="return handleEventFilter(event, 'search-eventstart', '/events/eventstart/');">
+    <div class="col">
+        <label for="search-eventstart" class="form-label">Event Date</label>
+        <input type="date" id="search-eventstart" name="eventstart" class="form-control" required>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
 </form>

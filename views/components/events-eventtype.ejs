@@ -1,10 +1,19 @@
-<form onsubmit="event.preventDefault(); window.location.href='/events/eventtype/' + document.getElementById('eventtype').value;">
-    <label for="eventtype" class="form-label">Event Type</label>
-    <select name="eventtype" id="eventtype" required>
-        <option value="" disabled selected>Select an event type</option>
-        <% for (const eventinstance of eventinstances) { %>
-            <option value="<%= eventinstance.eventtype %>"><%= eventinstance.eventtype %></option>
-        <% } %>
-    </select>
-    <button type="submit">Search</button>
+<%
+    const eventTypes = Array.from(new Set((eventinstances || []).map(function(instance) {
+        return instance.eventtype;
+    }).filter(Boolean)));
+%>
+<form class="row g-2 align-items-end" onsubmit="return handleEventFilter(event, 'search-eventtype', '/events/eventtype/');">
+    <div class="col">
+        <label for="search-eventtype" class="form-label">Event Type</label>
+        <select name="eventtype" id="search-eventtype" class="form-select" required>
+            <option value="" disabled selected>Select an event type</option>
+            <% eventTypes.forEach(function(type) { %>
+                <option value="<%= type %>"><%= type %></option>
+            <% }); %>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
 </form>
