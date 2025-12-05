@@ -1,32 +1,42 @@
-<div class="overflow-auto" style="max-height: 65vh;">
-  <div class="table-responsive">
-    <table class="table table-hover align-middle mb-0">
-      <thead class="bg-danger-subtle text-danger-emphasis">
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="bg-danger-subtle text-danger-emphasis">
       <tr class="text-uppercase small">
-        <th scope="col">Person ID</th>
+        <th scope="col">Donor</th>
         <th scope="col">Donation Date</th>
-        <th scope="col">Donation Amount</th>
+        <th scope="col">Amount</th>
       </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
       <% donations.forEach(function(donation) { %>
+        <% const donorName = [donation.firstname, donation.lastname].filter(Boolean).join(' '); %>
         <tr>
           <td class="fw-semibold text-nowrap">
-            <div class="text-danger-emphasis"><%= donation.personid %></div>
-          </td>
-          <td>
-            <div class="fw-semibold"><%= new Date(donation.donationdate).toLocaleDateString() || '—' %></div>
-          </td>
-          <td>
-            <% if (donation.donationamount) { %>
-              <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis"><%= donation.donationamount %></span>
+            <% if (donorName) { %>
+              <div class="text-danger-emphasis"><%= donorName %></div>
+              <div class="small text-muted">ID: <%= donation.personid %></div>
             <% } else { %>
-              <span class="text-muted small">—</span>
+              <div class="text-danger-emphasis">Person <%= donation.personid %></div>
+            <% } %>
+          </td>
+          <td class="text-nowrap">
+            <% const donationDate = donation.donationdate ? new Date(donation.donationdate) : null; %>
+            <% if (donationDate && !Number.isNaN(donationDate.getTime())) { %>
+              <%= donationDate.toLocaleDateString('en-US', { dateStyle: 'medium' }) %>
+            <% } else { %>
+              <span class="text-muted">—</span>
+            <% } %>
+          </td>
+          <td class="fw-semibold">
+            <% const amount = Number(donation.donationamount); %>
+            <% if (!Number.isNaN(amount)) { %>
+              <span class="badge bg-danger-subtle text-danger-emphasis"><%= amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) %></span>
+            <% } else { %>
+              <span class="text-muted">—</span>
             <% } %>
           </td>
         </tr>
       <% }); %>
-      </tbody>
-    </table>
-  </div>
+    </tbody>
+  </table>
 </div>
