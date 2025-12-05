@@ -53,7 +53,7 @@ app.use('/events', eventsRoutes);
 
 // root route
 app.get('/', (req, res) => {
-  res.render('index', {errorMessage: null, person: req.session.person ? req.session.person : null});
+  res.render('index', {errorMessage: null, session: req.session ? req.session : null});
 })
 
 // start server

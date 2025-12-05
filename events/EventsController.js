@@ -5,12 +5,12 @@ class EventsController {
     try {
       if (req.session.isLoggedIn) {
         const eventinstances = await eventsService.getEventsPage();
-        res.render('events', {errorMessage: null, person: req.session.person, eventinstances: eventinstances})
+        res.render('events', {errorMessage: null, session: req.session, eventinstances: eventinstances})
       } else {
-        res.render('login', {errorMessage: 'Please login to access this page.'});
+        res.render('login', {errorMessage: 'Please login to access this page.', session: null});
       };
     } catch (error) {
-      res.render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error, session: null});
     };
   };
 };

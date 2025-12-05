@@ -52,7 +52,7 @@
               <% } %>
             </div>
           </div>
-        <% if (person.role ==="admin" ) {%>
+        <% if (session.person.role ==="admin" ) {%>
             <!-- <%// include('components/surveys-addsurvey') %> -->
             <div class="text-end mt-2">
                 <a href="/surveys/surveys" class="btn btn-outline-secondary btn-sm">Clear</a>

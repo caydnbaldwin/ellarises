@@ -52,7 +52,7 @@
                                 <% } %>
                             </div>
                         </div>
-                        <% if (person.role ==="admin" ) { %>
+                        <% if (session.person.role ==="admin" ) { %>
                             <!-- <%// include('components/events-addevent') %> -->
                             <div class="text-end mt-2">
                                 <a href="/events/events" class="btn btn-outline-secondary btn-sm">Clear</a>
