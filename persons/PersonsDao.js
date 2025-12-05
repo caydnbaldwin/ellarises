@@ -88,6 +88,14 @@ class PersonsDao {
       .del()
       .returning('*');
   };
+
+  async updateDonation(personid, totaldonations) {
+    const newTotal = Number(totaldonations);
+    return await knex('persons')
+      .where('personid', personid)
+      .update({ totaldonations: Number.isNaN(newTotal) ? 0 : newTotal })
+      .returning('*');
+  };
 };
 
 module.exports = new PersonsDao();
