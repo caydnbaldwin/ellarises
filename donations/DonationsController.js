@@ -15,8 +15,13 @@ class DonationsController {
         person: null,
         donation: null
       });
-    }
-  }
+    };
+  };
+
+  async getDonationsPage(req, res) {
+    const donations = await donationsService.getDonationsPage();
+    res.render('donations', {errorMessage: null, donations: donations});
+  };
 };
 
 module.exports = new DonationsController();
