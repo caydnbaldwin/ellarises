@@ -92,32 +92,32 @@
                 alert(error.message);
             }
         };
-    function getMilestoneType(title) {
-        if (!title) return "Other";
+        function getMilestoneType(title) {
+            if (!title) return "Other";
 
-        const t = title.toUpperCase(); // normalize for case-insensitive matching
+            const t = title.toUpperCase(); // normalize for case-insensitive matching
 
-        // Diploma-like matches
-        if (
-            t.includes("DIPLOMA") ||
-            t.startsWith("BS") ||
-            t.startsWith("BA") ||
-            t.startsWith("MS") ||
-            t.includes("MBA") ||
-            t.includes("MFA") ||
-            t.startsWith("AA") ||
-            t.startsWith("AS") ||
-            t.includes("PHD")
-        ) {
-            return "Diploma";
-        }
+            // Diploma-like matches
+            if (
+                t.includes("DIPLOMA") ||
+                t.startsWith("BS") ||
+                t.startsWith("BA") ||
+                t.startsWith("MS") ||
+                t.includes("MBA") ||
+                t.includes("MFA") ||
+                t.startsWith("AA") ||
+                t.startsWith("AS") ||
+                t.includes("PHD")
+            ) {
+                return "Diploma";
+            }
 
-        // Project-like matches
-        if (t.includes("PROJECT")) {
-            return "Project";
-        }
+            // Project-like matches
+            if (t.includes("PROJECT")) {
+                return "Project";
+            }
 
-        return "Other";
-        };
+            return "Other";
+            };
   </script>
 </html>
