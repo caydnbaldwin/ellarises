@@ -52,87 +52,13 @@
       </div>
       <div class="card shadow-sm">
         <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <span class="fw-semibold">Donation Records</span>
-            <% if (donations && donations.length) { %>
-              <span class="badge text-bg-secondary">
-                <%= donations.length %>
-              </span>
-              <% } %>
-          </div>
-          <% if (typeof donations !=='undefined' && donations && donations.length) { %>
-            <div class="table-responsive">
-              <table class="table table-striped table-hover align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Amount (USD)</th>
-                    <% if (session.person.role==="admin" ) {%>
-                      <th scope="col" style="width:90px;">Edit</th>
-                      <th scope="col" style="width:90px;">Delete</th>
-                      <%}%>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% for (donation of donations) { %>
-                    <tr>
-                      <td scope="row">
-                        <%= donation.firstname %>
-                      </td>
-                      <td scope="row">
-                        <%= donation.lastname %>
-                      </td>
-                      <td scope="row">
-                        <%= new Date(donation.donationdate).toLocaleDateString() %>
-                      </td>
-                      <td scope="row">
-                        <%= donation.donationamount %>
-                      </td>
-                      <% if (session.person.role==="admin" ) {%>
-                        <td scope="row" class="action-cell">
-                          <form action="/donations/edit/<%= donation.personid%>/<%= donation.donationnumber%>"
-                            method="GET" class="d-inline">
-                            <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-primary" />
-                          </form>
-                        </td>
-                        <td scope="row" class="action-cell">
-                          <button onclick="deleteDonation('<%= donation.personid %>', '<%= donation.donationnumber %>')"
-                            class="btn btn-sm btn-outline-danger">Delete</button>
-                        </td>
-
-                        <%}%>
-                    </tr>
-                    <% } %>
-                </tbody>
-              </table>
-            </div>
-            <% } else { %>
-              <div class="alert alert-info mb-0">No donations found.</div>
-              <% } %>
+          <% if (donations && donations.length) { %>
+            <%- include('components/donations-table', {person: session.person, donations: donations}) %>
+          <% } else { %>
+            <div class="alert alert-info mb-0">No donations found.</div>
+            <% } %>
         </div>
       </div>
     </main>
-    <script>
-      async function deleteDonation(personid, donationnumber) {
-        if (!confirm('Are you sure you want to delete this donation?')) {
-          return;
-        }
-        try {
-          const response = await fetch(`/donations/delete/${personid}/${donationnumber}`, {
-            method: 'DELETE'
-          });
-          if (response.ok) {
-            throw new Error('Failed to delete donation.');
-          };
-          window.location.reload();
-        } catch (error) {
-          console.error(error);
-          alert(error.message);
-        }
-      };
-    </script>
 </body>
-
 </html>

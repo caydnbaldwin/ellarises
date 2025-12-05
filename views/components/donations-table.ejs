@@ -1,0 +1,32 @@
+<div class="overflow-auto" style="max-height: 65vh;">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="bg-danger-subtle text-danger-emphasis">
+      <tr class="text-uppercase small">
+        <th scope="col">Person ID</th>
+        <th scope="col">Donation Date</th>
+        <th scope="col">Donation Amount</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% donations.forEach(function(donation) { %>
+        <tr>
+          <td class="fw-semibold text-nowrap">
+            <div class="text-danger-emphasis"><%= donation.personid %></div>
+          </td>
+          <td>
+            <div class="fw-semibold"><%= new Date(donation.donationdate).toLocaleDateString() || '—' %></div>
+          </td>
+          <td>
+            <% if (donation.donationamount) { %>
+              <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis"><%= donation.donationamount %></span>
+            <% } else { %>
+              <span class="text-muted small">—</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
