@@ -12,8 +12,9 @@
       <th scope="col">Recommendation Score</th>
       <th scope="col">Overall Score</th>
       <% if (person.role ==="admin" ) {%>
-        <th scope="col" style="width:80px;">Edit</th>
+        <th scope="col" style="width:80px;">Add</th>
         <th scope="col" style="width:90px;">Delete</th>
+        <th scope="col" style="width:90px;">Edit</th>
       <%}%>
     </tr>
   </thead>
@@ -51,6 +52,15 @@
           <%= survey.surveyoverallscore %>
         </td>
         <% if (person.role ==="admin" ) {%>
+          <% if (survey.surveyoverallscore === null) {%>
+          <td scope="row" class="action-cell">
+            <form action="/surveys/add/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
+              <input type="submit" name="add" value="Add" />
+            </form>
+          </td>
+          <% } else { %>
+            <td></td>
+          <%}%>
           <td scope="row" class="action-cell">
             <form action="/surveys/edit/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
               <input type="submit" name="edit" value="Edit" />
@@ -59,6 +69,7 @@
           <td scope="row" class="action-cell">
             <button onclick="deleteSurvey('<%= survey.personid %>', '<%= survey.eventstart %>', '<%= survey.eventid %>')">Delete</button>
           </td>
+          
         <%}%>
       </tr>
     <% } %>
