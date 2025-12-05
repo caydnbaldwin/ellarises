@@ -27,17 +27,18 @@ class PersonsDao {
   };
 
   async postOnboarding(personid, firstname, lastname, dateofbirth, phone, city, state, zipcode, organization, fieldofinterest) {
+    const normalizedDob = (dateofbirth === '' || dateofbirth === undefined) ? null : dateofbirth;
     return await knex('persons')
       .where('personid', personid)
       .update({
-        firstname, 
-        lastname, 
-        dateofbirth, 
-        phone, 
-        city, 
-        state, 
-        zipcode, 
-        organization, 
+        firstname,
+        lastname,
+        dateofbirth: normalizedDob,
+        phone,
+        city,
+        state,
+        zipcode,
+        organization,
         fieldofinterest
       })
       .returning('*');
@@ -61,7 +62,7 @@ class PersonsDao {
     if (password !== undefined) insertData.password = password;
     if (firstname !== undefined) insertData.firstname = firstname;
     if (lastname !== undefined) insertData.lastname = lastname;
-    if (dateofbirth !== undefined) insertData.dateofbirth = dateofbirth;
+    if (dateofbirth !== undefined) insertData.dateofbirth = (dateofbirth === '' ? null : dateofbirth);
     if (role !== undefined) insertData.role = role;
     if (phone !== undefined) insertData.phone = phone;
     if (city !== undefined) insertData.city = city;
