@@ -1,3 +1,26 @@
+<% 
+  function getMilestoneType(title) {
+    if (!title) return "Other";
+    const t = String(title).toUpperCase();
+    if (
+      t.includes("DIPLOMA") ||
+      t.startsWith("BS") ||
+      t.startsWith("BA") ||
+      t.startsWith("MS") ||
+      t.includes("MBA") ||
+      t.includes("MFA") ||
+      t.startsWith("AA") ||
+      t.startsWith("AS") ||
+      t.includes("PHD")
+    ) {
+      return "Diploma";
+    }
+    if (t.includes("PROJECT")) {
+      return "Project";
+    }
+    return "Other";
+  }
+%>
 <table class="table table-striped table-hover milestones-table w-auto mx-auto">
   <thead class="table">
     <tr>
@@ -28,11 +51,11 @@
         <td scope="row">
           <%= milestone.milestonetitle %>
         </td>
-        <% const type = getMilestoneType(milestone.milestonetitle); %>
+        <% const milestonetype = getMilestoneType(milestone.milestonetitle); %>
         <td scope="row">
-            <% if (type === "Diploma") { %>
+            <% if (milestonetype === "Diploma") { %>
                 Diploma
-            <% } else if (type === "Project") { %>
+            <% } else if (milestonetype === "Project") { %>
                 Project
             <% } else { %>
                 Other
@@ -48,7 +71,7 @@
             </form>
           </td>
           <td scope="row" class="action-cell">
-            <button onclick="deleteevent('<%= milestone.personid %>', '<%= milestone.milestonenumber %>')">Delete</button>
+            <button onclick="deleteMilestone('<%= milestone.personid %>', '<%= milestone.milestonenumber %>')">Delete</button>
           </td>
           
         <%}%>
@@ -56,3 +79,23 @@
     <% } %>
   </tbody>
 </table>
+
+<script>
+  async function deleteMilestone(personid, milestonenumber) {
+    if (!confirm('Are you sure you want to delete this milestone?')) {
+      return;
+    }
+    try {
+      const response = await fetch(`/milestones/delete/${personid}/${milestonenumber}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        throw new Error('Failed to delete milestone.');
+      };
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
+</script>
