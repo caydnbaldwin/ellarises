@@ -191,7 +191,7 @@
   </main>
     <% } else { %>
       <section class="py-5" style="background-color: #F9F5EA;">
-        <div style="width: 100%; height: auto;">
+        <div style="width: auto; height: auto;">
           <div class="row justify-content-center">
             <div class="col-lg-10">
               <div class="card border-0 shadow">
@@ -233,7 +233,7 @@
                         var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
                         // Reserve space for card paddings/headers and provide comfortable room
                         var reserved = 220; // header, badge, margins, paddings
-                        var targetHeight = Math.max(400, viewportHeight - reserved);
+                        var targetHeight = Math.max(viewportHeight - reserved);
                         // Set explicit pixel width to avoid horizontal scrolling inside the iframe/object
                         vizElement.style.width = containerWidth + 'px';
                         vizElement.style.height = targetHeight + 'px';
