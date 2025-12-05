@@ -1,5 +1,7 @@
-<table class="table table-striped table-hover surveys-table w-auto mx-auto">
-  <thead class="table">
+<div class="overflow-auto" style="max-height: 65vh;">
+  <div class="table-responsive">
+<table class="table table-hover align-middle mb-0 surveys-table w-auto mx-auto">
+  <thead class="bg-danger-subtle text-danger-emphasis">
     <tr>
       <th scope="col">Person ID</th>
       <th scope="col">First Name</th>
@@ -12,24 +14,16 @@
       <th scope="col">Recommendation Score</th>
       <th scope="col">Overall Score</th>
       <% if (session.person.role ==="admin" ) {%>
-        <th scope="col" style="width:80px;">Add</th>
-        <th scope="col" style="width:90px;">Delete</th>
-        <th scope="col" style="width:90px;">Edit</th>
+        <th scope="col" class="text-end" style="width:180px;">Actions</th>
       <%}%>
     </tr>
   </thead>
   <tbody>
     <% for (survey of surveys) { %>
       <tr>
-        <td scope="row">
-          <%= survey.personid %>
-        </td>
-        <td scope="row">
-          <%= survey.firstname %>
-        </td>
-        <td scope="row">
-          <%= survey.lastname %>
-        </td>
+        <td class="text-nowrap"><%= survey.personid %></td>
+        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= survey.firstname %></div></td>
+        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= survey.lastname %></div></td>
         <td scope="row">
           <%= survey.eventname %>
         </td>
@@ -52,22 +46,18 @@
           <%= survey.surveyoverallscore %>
         </td>
         <% if (session.person.role ==="admin" ) {%>
-          <% if (survey.surveyoverallscore === null) {%>
-          <td scope="row" class="action-cell">
-            <form action="/surveys/add/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
-              <input type="submit" name="add" value="Add" />
-            </form>
-          </td>
-          <% } else { %>
-            <td></td>
-          <%}%>
-          <td scope="row" class="action-cell">
-            <form action="/surveys/edit/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
-              <input type="submit" name="edit" value="Edit" />
-            </form>
-          </td>
-          <td scope="row" class="action-cell">
-            <button onclick="deleteSurvey('<%= survey.personid %>', '<%= survey.eventstart %>', '<%= survey.eventid %>')">Delete</button>
+          <td>
+            <div class="d-flex justify-content-end gap-2">
+              <% if (survey.surveyoverallscore === null) { %>
+                <form action="/surveys/add/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
+                  <input type="submit" name="add" value="Add" class="btn btn-sm btn-outline-secondary" />
+                </form>
+              <% } %>
+              <form action="/surveys/edit/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
+                <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-primary" />
+              </form>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteSurvey('<%= survey.personid %>', '<%= survey.eventstart %>', '<%= survey.eventid %>')">Delete</button>
+            </div>
           </td>
           
         <%}%>
@@ -75,3 +65,5 @@
     <% } %>
   </tbody>
 </table>
+  </div>
+</div>
