@@ -58,6 +58,34 @@ class PersonsController {
     res.render('home', {errorMessage: null, person: req.session.person});
   };
 
+  async getPersons(req, res) {
+    const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
+    res.render('persons', {errorMessage: null, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
+  };
+  
+  async getPerson(req, res) {
+    const person = await personsService.getPerson(req.params.personid);
+    res.render('person', {errorMessage: null, person: person});
+  };
+  
+  async postPerson(req, res) {
+    try {
+      const person = await personsService.postPerson(req.body);
+      res.render('person', {errorMessage: null, person: person});
+    } catch (error) {
+      res.redirect('/persons/persons');
+    }
+  }
+  
+  async deletePerson(req, res) {
+    try {
+      const person = await personsService.deletePerson(req.params.personid);
+      res.status(204).json({person: person});
+    } catch (error) {
+      res.status(500).json({person: null});
+    };
+  };
+
   getLogout(req, res) {
     req.session.destroy();
     res.clearCookie('connect.sid');

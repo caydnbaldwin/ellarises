@@ -13,6 +13,7 @@ const personsRoutes = require('./persons/PersonsRoutes');
 const donationsRoutes = require('./donations/DonationsRoutes');
 const eggsRoutes = require('./eggs/EggsRoutes');
 const milestonesRoutes = require('./milestones/MilestonesRoutes');
+const surveysRoutes = require('./surveys/SurveysRoutes');
 
 // app
 const app = express();
@@ -46,6 +47,7 @@ app.use('/persons', personsRoutes);
 app.use('/donations', donationsRoutes);
 app.use('/eggs', eggsRoutes);
 app.use('/milestones', milestonesRoutes);
+app.use('/surveys', surveysRoutes);
 
 // root route
 app.get('/', (req, res) => {

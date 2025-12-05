@@ -1,9 +1,9 @@
-<form onsubmit="event.preventDefault(); window.location.href='/surveys/eventtype/' + document.getElementById('eventtype').value;">
+<form onsubmit="event.preventDefault(); window.location.href='/events/eventtype/' + document.getElementById('eventtype').value;">
     <label for="eventtype" class="form-label">Event Type</label>
     <select name="eventtype" id="eventtype" required>
         <option value="" disabled selected>Select an event type</option>
-        <% for (const survey of surveys) { %>
-            <option value="<%= survey.eventtype %>"><%= survey.eventtype %></option>
+        <% for (const event of events) { %>
+            <option value="<%= event.eventtype %>"><%= event.eventtype %></option>
         <% } %>
     </select>
     <button type="submit">Search</button>

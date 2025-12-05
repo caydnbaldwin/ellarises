@@ -38,11 +38,47 @@ class PersonsService {
     };
   };
 
-  async postOnboarding(personId, formData) {
+  async postOnboarding(personid, formData) {
     try {
-      const personid = personId;
       const {firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest} = formData;
       const person = await personsDao.postOnboarding(personid, firstName, lastName, dateOfBirth, phone, city, state, zipCode, organization, fieldOfInterest);
+      return person[0];
+    } catch (error) {
+      throw error;
+    };
+  };
+
+  async getPersons() {
+    try {
+      const {persons, roles, states, fieldsofinterest} = await personsDao.getPersons();
+      return {persons, roles: roles.rows, states: states.rows, fieldsofinterest: fieldsofinterest.rows};
+    } catch (error) {
+      throw error;
+    };
+  };
+
+  async getPerson(personid) {
+    try {
+      const person = await personsDao.getPerson(personid);
+      return person[0];
+    } catch (error) {
+      throw error;
+    };
+  };
+
+  async postPerson(formData) {
+    try {
+      const {email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest} = formData;
+      const person = await personsDao.postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest);
+      return person[0];
+    } catch (error) {
+      throw error;
+    };
+  };
+
+  async deletePerson(personid) {
+    try {
+      const person = await personsDao.deletePerson(personid);
       return person[0];
     } catch (error) {
       throw error;

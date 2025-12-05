@@ -7,7 +7,7 @@ class DonationsController {
 
   async postDonate(req, res) {
     const {person, donation} = await donationsService.postDonate(req.body);
-    res.render('donate', {errorMessage: null, person: person, donation: donation});
+    res.redirect('/');
   }
 };
 
