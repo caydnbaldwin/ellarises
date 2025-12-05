@@ -2,7 +2,7 @@ const personsService = require('./PersonsService');
 
 class PersonsController {
   getSignupPage(req, res) {
-    res.render('signup', {errorMessage: null});
+    res.render('signup', {errorMessage: null, session: null});
   };
 
   async postSignup(req, res) {
@@ -12,12 +12,12 @@ class PersonsController {
       req.session.person = person;
       res.redirect('/persons/onboarding');
     } catch (error) {
-      res.render('signup', {errorMessage: error});
+      res.render('signup', {errorMessage: error, session: null});
     };
   };
 
   getLoginPage(req, res) {
-    res.render('login', {errorMessage: null});
+    res.render('login', {errorMessage: null, session: null});
   };
 
   async postLogin(req, res) {
@@ -26,12 +26,12 @@ class PersonsController {
       req.session.isLoggedIn = true;
       req.session.person = person;
       if (person.firstname) {
-        res.render('index', {errorMessage: null, person: person});
+        res.render('index', {errorMessage: null, session: req.session});
       } else {
         res.redirect('/persons/onboarding');
       };
     } catch (error) {
-      res.render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error, session: null});
     };
   };
 
@@ -39,12 +39,12 @@ class PersonsController {
     try {
       if (req.session.isLoggedIn) {
         const {states, fieldsOfInterest} = await personsService.getOnboardingPage();
-        res.render('onboarding', {errorMessage: null, states: states, fieldsOfInterest: fieldsOfInterest});
+        res.render('onboarding', {errorMessage: null, session: req.session, states: states, fieldsOfInterest: fieldsOfInterest});
       } else {
-        res.render('login', {errorMessage: 'Please log in to access this page.'});
+        res.render('login', {errorMessage: 'Please log in to access this page.', session: null});
       };
     } catch (error) {
-      res.render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error, session: null});
     };
   };
 
@@ -53,12 +53,12 @@ class PersonsController {
       if (req.session.isLoggedIn) {
         const person = await personsService.postOnboarding(req.session.person.personid, req.body);
         req.session.person = person;
-        res.render('index', {errorMessage: null, person: person});
+        res.render('index', {errorMessage: null, session: req.session});
       } else {
-        res.render('login', {errorMessage: 'Please log in to perform this action.'});
+        res.render('login', {errorMessage: 'Please log in to perform this action.', session: null});
       };
     } catch (error) {
-      res.render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error, session: null});
     };
   };
 
@@ -68,10 +68,10 @@ class PersonsController {
         const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
         res.render('persons', {errorMessage: null, session: req.session, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
       } else {
-        res.render('login', {errorMessage: 'Please log in to access this page.'});
+        res.render('login', {errorMessage: 'Please log in to access this page.', session: null});
       }
     } catch (error) {
-      res.render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error, session: null});
     }
   };
   
@@ -84,13 +84,13 @@ class PersonsController {
         } else {
           req.session.destroy();
           res.clearCookie('connect.sid');
-          res.render('login', {errorMessage: 'You cannot access this page.'});
+          res.render('login', {errorMessage: 'You cannot access this page.', session: null});
         }
       } else {
-        res.render('login', {errorMessage: 'Please log in to access this page.'});
+        res.render('login', {errorMessage: 'Please log in to access this page.', session: null});
       };
     } catch (error) {
-      res.render('login', {errorMessage: error})
+      res.render('login', {errorMessage: error, session: null})
     };
   };
   
@@ -103,13 +103,13 @@ class PersonsController {
         } else {
           req.session.destroy();
           res.clearCookie('connect.sid');
-          res.render('login', {errorMessage: 'You cannot perform this action.'})
+          res.render('login', {errorMessage: 'You cannot perform this action.', session: null})
         }
       } else {
-        res.render('login', {errorMessage: 'Please log in to access this page.'});
+        res.render('login', {errorMessage: 'Please log in to access this page.', session: null});
       };
     } catch (error) {
-      res.render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error, session: null});
     };
   };
   
@@ -122,13 +122,13 @@ class PersonsController {
         } else {
           req.session.destroy();
           res.clearCookie('connect.sid');
-          res.render('login', {errorMessage: 'You cannot perform this action.'})
+          res.render('login', {errorMessage: 'You cannot perform this action.', session: null})
         }
       } else {
-        res.render('login', {errorMessage: 'Please log in to access this page.'});
+        res.render('login', {errorMessage: 'Please log in to access this page.', session: null});
       }
     } catch (error) {
-      res.render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error, session: null});
     };
   };
 

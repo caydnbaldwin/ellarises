@@ -3,6 +3,5 @@ const router = express.Router();
 const milestonesController = require('./MilestonesController');
 
 router.get('/milestones', milestonesController.getMilestonesPage);
-router.get('/dashboard', milestonesController.getDashboardPage);
 
 module.exports = router;

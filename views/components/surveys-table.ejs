@@ -11,7 +11,7 @@
       <th scope="col">Instructor Score</th>
       <th scope="col">Recommendation Score</th>
       <th scope="col">Overall Score</th>
-      <% if (person.role ==="admin" ) {%>
+      <% if (session.person.role ==="admin" ) {%>
         <th scope="col" style="width:80px;">Add</th>
         <th scope="col" style="width:90px;">Delete</th>
         <th scope="col" style="width:90px;">Edit</th>
@@ -51,7 +51,7 @@
         <td scope="row">
           <%= survey.surveyoverallscore %>
         </td>
-        <% if (person.role ==="admin" ) {%>
+        <% if (session.person.role ==="admin" ) {%>
           <% if (survey.surveyoverallscore === null) {%>
           <td scope="row" class="action-cell">
             <form action="/surveys/add/<%= survey.personid%>/<%= survey.eventstart%>/<%= survey.eventid%>" method="GET">
