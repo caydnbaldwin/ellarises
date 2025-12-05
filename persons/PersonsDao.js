@@ -41,6 +41,13 @@ class PersonsDao {
       })
       .returning('*');
   };
+
+  async getPerson(personid) {
+    return await knex
+      .select('*')
+      .from('persons')
+      .where('personid', personid);
+  };
 };
 
 module.exports = new PersonsDao();

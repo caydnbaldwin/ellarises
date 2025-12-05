@@ -58,6 +58,11 @@ class PersonsController {
     res.render('home', {errorMessage: null, person: req.session.person});
   };
 
+  async getPerson(req, res) {
+    const person = await personsService.getPerson(req.params.personid);
+    res.render('person', {errorMessage: null, person: person});
+  }
+
   getLogout(req, res) {
     req.session.destroy();
     res.clearCookie('connect.sid');

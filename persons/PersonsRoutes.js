@@ -9,6 +9,7 @@ router.post('/login', personsController.postLogin);
 router.get('/onboarding', personsController.getOnboardingPage);
 router.post('/onboarding', personsController.postOnboarding);
 router.get('/home', personsController.getHomePage);
+router.get('/mi/:personid', personsController.getPerson);
 router.get('/logout', personsController.getLogout);
 
 module.exports = router;

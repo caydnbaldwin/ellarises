@@ -25,6 +25,9 @@
           <li class="nav-item">
             <a class="nav-link fs-3" href="/donations/donations" style="color: var(--color-dark);">Donations</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link fs-3" href="/persons/mi/<%= person.personid %>" style="color: var(--color-dark);">Profile</a>
+          </li>
           <% if (typeof person !== 'undefined' && person && person.role === 'admin') { %>
             <li class="nav-item">
               <a class="nav-link fs-3" href="/persons/user" style="color: var(--color-dark);">Users</a>
