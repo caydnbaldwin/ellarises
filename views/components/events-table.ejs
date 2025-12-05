@@ -1,39 +1,36 @@
-<table class="table table-striped table-hover events-table w-auto mx-auto">
-  <thead class="table">
+<div class="overflow-auto" style="max-height: 65vh;">
+  <div class="table-responsive">
+<table class="table table-hover align-middle mb-0 events-table w-auto mx-auto">
+  <thead class="bg-danger-subtle text-danger-emphasis">
     <tr>
       <th scope="col">Event Name</th>
       <th scope="col">Event Type</th>
       <th scope="col">Event Date</th>
       <th scope="col">Event Location</th>
-      <% if (person.role ==="admin" ) {%>
-        <th scope="col" style="width:90px;">Delete</th>
-        <th scope="col" style="width:90px;">Edit</th>
+      <% if (session.person.role ==="admin" ) {%>
+        <th scope="col" class="text-end" style="width:180px;">Actions</th>
       <%}%>
     </tr>
   </thead>
   <tbody>
-    <% for (event of events) { %>
+    <% for (eventinstance of eventinstances) { %>
       <tr>
+        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= eventinstance.eventname %></div></td>
+        <td class="text-nowrap"><%= eventinstance.eventtype %></td>
         <td scope="row">
-          <%= event.eventname %>
+          <%= new Date(eventinstance.eventstart).toLocaleDateString() %>
         </td>
         <td scope="row">
-          <%= event.eventtype %>
+          <%= eventinstance.eventlocation %>
         </td>
-        <td scope="row">
-          <%= new Date(event.eventstart).toLocaleDateString() %>
-        </td>
-        <td scope="row">
-          <%= event.eventlocation %>
-        </td>
-        <% if (person.role ==="admin" ) {%>
-          <td scope="row" class="action-cell">
-            <form action="/events/edit/<%= event.eventid%>/<%= event.eventstart%>" method="GET">
-              <input type="submit" name="edit" value="edit" />
-            </form>
-          </td>
-          <td scope="row" class="action-cell">
-            <button onclick="deleteevent('<%= event.eventid %>', '<%= event.eventstart %>')">Delete</button>
+        <% if (session.person.role ==="admin" ) {%>
+          <td>
+            <div class="d-flex justify-content-end gap-2">
+              <form action="/events/edit/<%= eventinstance.eventid%>/<%= eventinstance.eventstart%>" method="GET">
+                <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-secondary" />
+              </form>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteevent('<%= eventinstance.eventid %>', '<%= eventinstance.eventstart %>')">Delete</button>
+            </div>
           </td>
           
         <%}%>
@@ -41,3 +38,5 @@
     <% } %>
   </tbody>
 </table>
+  </div>
+</div>

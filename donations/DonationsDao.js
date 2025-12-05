@@ -24,7 +24,14 @@ class DonationsDao {
         donationamount
       })
       .returning('*');
-  }
+  };
+
+  async getDonationsPage() {
+    return await knex("donations")
+    .select("*")
+    .innerJoin("persons", "persons.personid", "donations.personid");
+
+  };
 };
 
 module.exports = new DonationsDao();

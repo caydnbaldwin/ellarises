@@ -1,5 +1,9 @@
 const milestonesDao = require('./MilestonesDao')
 
-class MilestonesServices {};
+class MilestonesService {
+  async getMilestonesPage() {
+    return await milestonesDao.getMilestonesPage();
+  }
+};
 
-module.exports = new MilestonesServices();
+module.exports = new MilestonesService();

@@ -57,29 +57,50 @@ class PersonsDao {
   };
 
   async postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest) {
-    return await knex('persons')
-      .insert({
-        email, 
-        password, 
-        firstname, 
-        lastname, 
-        dateofbirth, 
-        role, 
-        phone, 
-        city, 
-        state, 
-        zipcode, 
-        organization, 
-        fieldofinterest
-      })
+    const insertData = { email };
+    if (password !== undefined) insertData.password = password;
+    if (firstname !== undefined) insertData.firstname = firstname;
+    if (lastname !== undefined) insertData.lastname = lastname;
+    if (dateofbirth !== undefined) insertData.dateofbirth = dateofbirth;
+    if (role !== undefined) insertData.role = role;
+    if (phone !== undefined) insertData.phone = phone;
+    if (city !== undefined) insertData.city = city;
+    if (state !== undefined) insertData.state = state;
+    if (zipcode !== undefined) insertData.zipcode = zipcode;
+    if (organization !== undefined) insertData.organization = organization;
+    if (fieldofinterest !== undefined) insertData.fieldofinterest = fieldofinterest;
+
+    // Build update set only for provided fields (excluding email)
+    const updateData = {};
+    for (const [key, value] of Object.entries(insertData)) {
+      if (key === 'email') continue; // do not update unique key
+      if (value !== undefined) updateData[key] = value;
+    }
+
+    const person = await knex('persons')
+      .insert(insertData)
+      .onConflict('email')
+      .merge(updateData)
       .returning('*');
+    const states = await knex
+      .raw('SELECT unnest(enum_range(NULL::state_enum)) AS state');
+    const fieldsofinterest = await knex
+      .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
+    return {person, states, fieldsofinterest};
   }
 
   async getPerson(personid) {
-    return await knex
+    const person = await knex
       .select('*')
       .from('persons')
       .where('personid', personid);
+    const roles = await knex
+    .raw('SELECT unnest(enum_range(NULL::role_enum)) AS role');
+    const states = await knex
+      .raw('SELECT unnest(enum_range(NULL::state_enum)) AS state');
+    const fieldsofinterest = await knex
+      .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
+    return {person, roles, states, fieldsofinterest};
   };
 
   async deletePerson(personid) {

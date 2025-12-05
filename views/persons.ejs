@@ -1,22 +1,54 @@
+<!-- This is the page where all the participants/users are displayed. All logged-in users can see it, but only
+ admin are able to add, edit, delete, etc -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Persons</title>
+    <style>
+      .accordion-button.pink {
+        background-color: #ffc0cb;
+        color: #212529;
+        border-color: #ffc0cb;
+      }
+
+      .accordion-button.pink:not(.collapsed) {
+        background-color: #ffc0cb;
+        color: #212529;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.125);
+      }
+
+      .accordion-button.pink:focus {
+        border-color: #ffc0cb;
+        box-shadow: 0 0 0 0.25rem rgba(255, 192, 203, 0.35);
+      }
+    </style>
 </head>
 <body class="bg-light">
+  <!-- Brings in the navbar from the components directory -->
   <%- include('components/navbar') %>
 
   <main class="container-fluid px-3 px-md-4">
     <div class="row g-4">
       <div class="col-12">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h1 class="h4 mb-3">Add Person</h1>
-            <%- include('components/persons-add-person') %>
+        <% if (session.person?.role === 'admin') { %>
+          <div class="accordion mt-4">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                  <button class="accordion-button pink" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Add Person
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <%- include('components/persons-add-person') %>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        <% } %>
       </div>
       <div class="col-12">
         <div class="card shadow-sm">
@@ -24,7 +56,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h2 class="h4 mb-0">Persons</h2>
             </div>
-            <%- include('components/persons-table') %>
+            <%- include('components/persons-table', {persons, currentUser: session.person}) %>
           </div>
         </div>
       </div>

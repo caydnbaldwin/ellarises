@@ -14,6 +14,7 @@ const donationsRoutes = require('./donations/DonationsRoutes');
 const eggsRoutes = require('./eggs/EggsRoutes');
 const milestonesRoutes = require('./milestones/MilestonesRoutes');
 const surveysRoutes = require('./surveys/SurveysRoutes');
+const eventsRoutes = require('./events/EventsRoutes');
 
 // app
 const app = express();
@@ -48,10 +49,11 @@ app.use('/donations', donationsRoutes);
 app.use('/eggs', eggsRoutes);
 app.use('/milestones', milestonesRoutes);
 app.use('/surveys', surveysRoutes);
+app.use('/events', eventsRoutes);
 
 // root route
 app.get('/', (req, res) => {
-  res.render('index', {errorMessage: null, person: req.session.person ? req.session.person : null});
+  res.render('index', {errorMessage: null, session: req.session ? req.session : null});
 })
 
 // start server

@@ -1,65 +1,65 @@
 <form action="/persons/person" method="POST" class="row g-3">
 	<div class="col-md-3">
 		<label for="email" class="form-label">Email</label>
-		<input type="email" id="email" name="email" class="form-control" required>
+		<input type="email" id="email" name="email" value="<%= person.email %>" class="form-control" required>
 	</div>
 	<div class="col-md-3">
 		<label for="password" class="form-label">Password</label>
-		<input type="password" id="password" name="password" class="form-control" required>
+		<input type="password" id="password" name="password" value="<%= person.password || '' %>" class="form-control" required>
 	</div>
 	<div class="col-md-3">
 		<label for="firstname" class="form-label">First Name</label>
-		<input type="text" id="firstname" name="firstname" class="form-control" required>
+		<input type="text" id="firstname" name="firstname" value="<%= person.firstname || '' %>" class="form-control" required>
 	</div>
 	<div class="col-md-3">
 		<label for="lastname" class="form-label">Last Name</label>
-		<input type="text" id="lastname" name="lastname" class="form-control" required>
+		<input type="text" id="lastname" name="lastname" value="<%= person.lastname || '' %>" class="form-control" required>
 	</div>
 
 	<div class="col-md-3">
 		<label for="dateofbirth" class="form-label">Date of Birth</label>
-		<input type="date" id="dateofbirth" name="dateofbirth" class="form-control">
+		<input type="date" id="dateofbirth" name="dateofbirth" value="<%= person.dateofbirth || '' %>" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="role" class="form-label">Role</label>
 		<select name="role" id="role" class="form-select" required>
 			<option value="" disabled selected>Select a role</option>
 			<% for (const role of roles) { %>
-				<option value="<%= role.role %>"><%= role.role %></option>
+				<option value="<%= role.role %>" <% if (person.role === role.role) { %>selected<% } %>><%= role.role %></option>
 			<% } %>
 		</select>
 	</div>
 	<div class="col-md-3">
 		<label for="phone" class="form-label">Phone</label>
-		<input type="tel" id="phone" name="phone" class="form-control">
+		<input type="tel" id="phone" name="phone" value="<%= person.phone || '' %>" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="city" class="form-label">City</label>
-		<input type="text" id="city" name="city" class="form-control">
+		<input type="text" id="city" name="city" value="<%= person.city || '' %>" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="state" class="form-label">State</label>
 		<select name="state" id="state" class="form-select" required>
 			<option value="" disabled selected>Select a state</option>
 			<% for (const state of states) { %>
-				<option value="<%= state.state %>"><%= state.state %></option>
+				<option value="<%= state.state %>" <% if (person.state === state.state) { %>selected<% } %>><%= state.state %></option>
 			<% } %>
 		</select>
 	</div>
 	<div class="col-md-3">
 		<label for="zipcode" class="form-label">Zip Code</label>
-		<input type="number" id="zipcode" name="zipcode" class="form-control">
+		<input type="number" id="zipcode" name="zipcode" value="<%= person.zipcode || '' %>" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="organization" class="form-label">Organization</label>
-		<input type="text" id="organization" name="organization" class="form-control">
+		<input type="text" id="organization" name="organization" value="<%= person.organization || '' %>" class="form-control">
 	</div>
 	<div class="col-md-3">
 		<label for="fieldofinterest" class="form-label">Field of Interest</label>
 		<select name="fieldofinterest" id="fieldofinterest" class="form-select" required>
 			<option value="" disabled selected>Select a field</option>
 			<% for (const fieldofinterest of fieldsofinterest) { %>
-				<option value="<%= fieldofinterest.fieldofinterest %>"><%= fieldofinterest.fieldofinterest %></option>
+				<option value="<%= fieldofinterest.fieldofinterest %>" <% if (person.fieldofinterest === fieldofinterest.fieldofinterest) { %>selected<% } %>><%= fieldofinterest.fieldofinterest %></option>
 			<% } %>
 		</select>
 	</div>

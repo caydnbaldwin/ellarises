@@ -1,0 +1,100 @@
+<% 
+  function getMilestoneType(title) {
+    if (!title) return "Other";
+    const t = String(title).toUpperCase();
+    if (
+      t.includes("DIPLOMA") ||
+      t.startsWith("BS") ||
+      t.startsWith("BA") ||
+      t.startsWith("MS") ||
+      t.includes("MBA") ||
+      t.includes("MFA") ||
+      t.startsWith("AA") ||
+      t.startsWith("AS") ||
+      t.includes("PHD")
+    ) {
+      return "Diploma";
+    }
+    if (t.includes("PROJECT")) {
+      return "Project";
+    }
+    return "Other";
+  }
+%>
+<div class="overflow-auto" style="max-height: 65vh;">
+  <div class="table-responsive">
+<table class="table table-hover align-middle mb-0 milestones-table w-auto mx-auto">
+  <thead class="bg-danger-subtle text-danger-emphasis">
+    <tr>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Milestone Number</th>
+      <th scope="col">Milestone Title</th>
+      <th scope="col">Milestone Type</th>
+      <th scope="col">Milestone Date</th>
+      <% if (session.person.role ==="admin" ) {%>
+        <th scope="col" class="text-end" style="width:180px;">Actions</th>
+      <%}%>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (milestone of milestones) { %>
+      <tr>
+        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= milestone.firstname %></div></td>
+        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= milestone.lastname %></div></td>
+        <td scope="row">
+          <%= milestone.milestonenumber %>
+        </td>
+        <td scope="row">
+          <%= milestone.milestonetitle %>
+        </td>
+        <% const milestonetype = getMilestoneType(milestone.milestonetitle); %>
+        <td scope="row">
+            <% if (milestonetype === "Diploma") { %>
+                Diploma
+            <% } else if (milestonetype === "Project") { %>
+                Project
+            <% } else { %>
+                Other
+            <% } %>
+        </td>
+        <td scope="row">
+          <%= new Date(milestone.milestonedate).toLocaleDateString() %>
+        </td>
+        <% if (session.person.role ==="admin" ) { %>
+          <td>
+            <div class="d-flex justify-content-end gap-2">
+              <form action="/milestones/edit/<%= milestone.personid%>/<%= milestone.milestonenumber%>" method="GET">
+                <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-secondary" />
+              </form>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteMilestone('<%= milestone.personid %>', '<%= milestone.milestonenumber %>')">Delete</button>
+            </div>
+          </td>
+          
+        <% } %>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+  </div>
+</div>
+
+<script>
+  async function deleteMilestone(personid, milestonenumber) {
+    if (!confirm('Are you sure you want to delete this milestone?')) {
+      return;
+    }
+    try {
+      const response = await fetch(`/milestones/delete/${personid}/${milestonenumber}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        throw new Error('Failed to delete milestone.');
+      };
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
+</script>

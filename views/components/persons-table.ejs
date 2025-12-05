@@ -1,80 +1,68 @@
-<div class="table-responsive">
-  <table class="table table-striped table-hover align-middle">
-    <thead class="table-light">
-    <tr>
-      <th scope="col">Person ID</th>
-      <th scope="col">Email</th>
-      <th scope="col">Password</th>
-      <th scope="col">First Name</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">Date Of Birth</th>
-      <th scope="col">Role</th>
-      <th scope="col">Phone</th>
-      <th scope="col">City</th>
-      <th scope="col">State</th>
-      <th scope="col">Zip Code</th>
-      <th scope="col">Organization</th>
-      <th scope="col">Field of Interest</th>
-      <th scope="col">Total Donations</th>
-      <th scope="col" class="text-center">Edit</th>
-      <th scope="col" class="text-center">Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% for (person of persons) { %>
-      <tr>
-        <td>
-          <%= person.personid %>
-        </td>
-        <td>
-          <%= person.email %>
-        </td>
-        <td>
-          <%= person.password %>
-        </td>
-        <td>
-          <%= person.firstname %>
-        </td>
-        <td>
-          <%= person.lastname %>
-        </td>
-        <td>
-          <%= new Date(person.dateofbirth).toLocaleDateString() %>
-        </td>
-        <td>
-          <%= person.role %>
-        </td>
-        <td>
-          <%= person.phone %>
-        </td>
-        <td>
-          <%= person.city %>
-        </td>
-        <td>
-          <%= person.state %>
-        </td>
-        <td>
-          <%= person.zipcode %>
-        </td>
-        <td>
-          <%= person.organization %>
-        </td>
-        <td>
-          <%= person.fieldofinterest %>
-        </td>
-        <td>
-          <%= person.totaldonations %>
-        </td>
-        <td class="text-center">
-          <form action="/persons/mi/<%= person.personid%>" method="GET" class="d-inline">
-            <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
-          </form>
-        </td>
-        <td class="text-center">
-          <button class="btn btn-sm btn-outline-danger" onclick="deletePerson('<%= person.personid %>')">Delete</button>
-        </td>
+<div class="overflow-auto" style="max-height: 65vh;">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="bg-danger-subtle text-danger-emphasis">
+      <tr class="text-uppercase small">
+        <th scope="col">Name</th>
+        <th scope="col">Location</th>
+        <th scope="col">Organization</th>
+        <th scope="col">Field of Interest</th>
+        <th scope="col">Total Donations</th>
+        <% if (currentUser?.role === 'admin') { %>
+          <th scope="col" class="text-end">Actions</th>
+        <% } %>
       </tr>
-    <% } %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+      <% persons.forEach(function(currentPerson) { %>
+        <tr>
+          <td class="fw-semibold text-nowrap">
+            <div class="text-danger-emphasis"><%= currentPerson.firstname %> <%= currentPerson.lastname %></div>
+          </td>
+          <td class="text-nowrap">
+            <div class="small">
+              <% if (currentPerson.city || currentPerson.state || currentPerson.zipcode) { %>
+                <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">
+                  <%= currentPerson.city || '' %><% if (currentPerson.city && currentPerson.state) { %>, <% } %><%= currentPerson.state || '' %><% if ((currentPerson.city || currentPerson.state) && currentPerson.zipcode) { %> <% } %><%= currentPerson.zipcode || '' %>
+                </span>
+              <% } else { %>
+                <span class="text-muted">—</span>
+              <% } %>
+            </div>
+          </td>
+          <td>
+            <div class="fw-semibold"><%= currentPerson.organization || '—' %></div>
+          </td>
+          <td>
+            <% if (currentPerson.fieldofinterest) { %>
+              <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis"><%= currentPerson.fieldofinterest %></span>
+            <% } else { %>
+              <span class="text-muted small">—</span>
+            <% } %>
+          </td>
+          <td class="fw-semibold">
+            <% const totalDonations = Number(currentPerson.totaldonations || 0); %>
+            <% if (Number.isNaN(totalDonations)) { %>
+              <span class="text-muted">—</span>
+            <% } else { %>
+              <span class="badge bg-danger-subtle text-danger-emphasis">
+                <%= totalDonations.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) %>
+              </span>
+            <% } %>
+          </td>
+          <% if (currentUser?.role === 'admin') { %>
+            <td>
+              <div class="d-flex justify-content-end gap-2">
+                <form action="/persons/mi/<%= currentPerson.personid %>" method="GET">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </form>
+                <button class="btn btn-sm btn-outline-danger" onclick="deletePerson('<%= currentPerson.personid %>')">Delete</button>
+              </div>
+            </td>
+          <% } %>
+        </tr>
+      <% }); %>
+      </tbody>
+    </table>
+  </div>
 </div>

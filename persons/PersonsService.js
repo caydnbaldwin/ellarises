@@ -59,8 +59,8 @@ class PersonsService {
 
   async getPerson(personid) {
     try {
-      const person = await personsDao.getPerson(personid);
-      return person[0];
+      const {person, roles, states, fieldsofinterest} = await personsDao.getPerson(personid);
+      return {person: person[0], roles: roles.rows, states: states.rows, fieldsofinterest: fieldsofinterest.rows};
     } catch (error) {
       throw error;
     };
@@ -69,8 +69,8 @@ class PersonsService {
   async postPerson(formData) {
     try {
       const {email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest} = formData;
-      const person = await personsDao.postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest);
-      return person[0];
+      const {person, states, fieldsofinterest} = await personsDao.postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest);
+      return {person: person[0], states: states.rows, fieldsofinterest: fieldsofinterest.rows};
     } catch (error) {
       throw error;
     };

@@ -6,7 +6,7 @@ function authMiddleware(req, res, next) {
   } else if (req.session?.isLoggedIn) {
     return next();
   }
-  return res.render('index', {error_message: 'Please log in to access this page'});
+  return res.render('login', {errorMessage: 'Please log in to access this page', session: null});
 };
 
 module.exports = {authMiddleware};

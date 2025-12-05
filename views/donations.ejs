@@ -1,0 +1,138 @@
+<!-- This is the page that shows all donations. It shows the first and last names of donors and 
+ the date and amount -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Donations Maintenance</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    crossorigin="anonymous">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --c2: #978EC4;
+    }
+
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial
+    }
+
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      color: var(--c2)
+    }
+
+    .action-cell form input[type="submit"],
+    .action-cell button {
+      padding: .25rem .5rem;
+      border-radius: .375rem;
+      border: 1px solid rgba(0, 0, 0, .125);
+      background: #fff;
+    }
+
+    .action-cell button {
+      border-color: #dc3545;
+      color: #dc3545;
+      background: transparent
+    }
+  </style>
+</head>
+
+<body class="bg-light">
+  <%- include('components/navbar') %>
+    <main class="container-fluid px-3 px-md-4 py-4">
+      <div class="d-flex justify-content-between align-items-baseline mb-3">
+        <h1 class="h3 m-0 page-title">Donations</h1>
+      </div>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="fw-semibold">Donation Records</span>
+            <% if (donations && donations.length) { %>
+              <span class="badge text-bg-secondary">
+                <%= donations.length %>
+              </span>
+              <% } %>
+          </div>
+          <% if (typeof donations !=='undefined' && donations && donations.length) { %>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount (USD)</th>
+                    <% if (session.person.role==="admin" ) {%>
+                      <th scope="col" style="width:90px;">Edit</th>
+                      <th scope="col" style="width:90px;">Delete</th>
+                      <%}%>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (donation of donations) { %>
+                    <tr>
+                      <td scope="row">
+                        <%= donation.firstname %>
+                      </td>
+                      <td scope="row">
+                        <%= donation.lastname %>
+                      </td>
+                      <td scope="row">
+                        <%= new Date(donation.donationdate).toLocaleDateString() %>
+                      </td>
+                      <td scope="row">
+                        <%= donation.donationamount %>
+                      </td>
+                      <% if (session.person.role==="admin" ) {%>
+                        <td scope="row" class="action-cell">
+                          <form action="/donations/edit/<%= donation.personid%>/<%= donation.donationnumber%>"
+                            method="GET" class="d-inline">
+                            <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-primary" />
+                          </form>
+                        </td>
+                        <td scope="row" class="action-cell">
+                          <button onclick="deleteDonation('<%= donation.personid %>', '<%= donation.donationnumber %>')"
+                            class="btn btn-sm btn-outline-danger">Delete</button>
+                        </td>
+
+                        <%}%>
+                    </tr>
+                    <% } %>
+                </tbody>
+              </table>
+            </div>
+            <% } else { %>
+              <div class="alert alert-info mb-0">No donations found.</div>
+              <% } %>
+        </div>
+      </div>
+    </main>
+    <script>
+      async function deleteDonation(personid, donationnumber) {
+        if (!confirm('Are you sure you want to delete this donation?')) {
+          return;
+        }
+        try {
+          const response = await fetch(`/donations/delete/${personid}/${donationnumber}`, {
+            method: 'DELETE'
+          });
+          if (response.ok) {
+            throw new Error('Failed to delete donation.');
+          };
+          window.location.reload();
+        } catch (error) {
+          console.error(error);
+          alert(error.message);
+        }
+      };
+    </script>
+</body>
+
+</html>

@@ -6,13 +6,14 @@
   :root {
     --color-blue: #99B7C6;
     --color-purple: #978EC4;
-    --color-cream: #F9F5EA;
+    --color-cream: #F2F2F0;
     --color-pink-light: #FFD8D1;
     --color-pink: #F9AFB1;
     --color-green: #9AB59D;
     --color-dark: #3A3F3B;
     --color-peach: #F4B092;
     --color-rose: #CE325B;
+    
   }
 
   .navbar .dropdown-item {
@@ -54,13 +55,13 @@
         </li>
         
         <!-- Profile Icon Dropdown -->
-        <% if (typeof person !== 'undefined' && person) { %>
+        <% if (typeof session?.person !== 'undefined' && session?.person) { %>
           <li class="nav-item dropdown">
             <a class="nav-link fs-5 px-3" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fas fa-user-circle fa-2x"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" style="background-color: var(--color-cream);" aria-labelledby="profileDropdown">
-              <li><a class="dropdown-item" href="/persons/mi/<%= person.personid %>">Profile</a></li>
+              <li><a class="dropdown-item" href="/persons/mi/<%= session.person.personid %>">Profile</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-danger" href="/persons/logout">Logout</a></li>
             </ul>
