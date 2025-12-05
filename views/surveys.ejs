@@ -5,12 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Surveys</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
+    :root{
+      --c2: #978EC4;
+      --c7: #3A3F3B;
+    }
     html, body { height: 100%; }
-    body { overflow: hidden; }
+    body { overflow: hidden; font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
     /* Keep table header visible while scrolling inside card */
     .surveys-table thead th { position: sticky; top: 0; z-index: 2; background-color: var(--bs-body-bg); }
+    .page-title{font-family:'DM Serif Display',serif; color:var(--c2)}
   </style>
 </head>
 
@@ -19,10 +25,10 @@
 
 <!-- Brings in the navbar from the components directory -->
   <%- include('components/navbar') %>
-  <main class="container-fluid vh-100 d-flex flex-column">
+  <main class="container-fluid px-3 px-md-4 vh-100 d-flex flex-column">
     <div class="py-3">
       <div class="d-flex align-items-baseline justify-content-between gap-3 mb-2">
-        <h1 class="h3 m-0">Surveys</h1>
+        <h1 class="h3 m-0 page-title">Surveys</h1>
         <% if (surveys && surveys.length) { %>
           <div class="text-secondary fs-6"><%= surveys.length %> records</div>
         <% } %>
@@ -31,13 +37,13 @@
 
     <% if (surveys.length===0) { %>
       <div class="flex-grow-1 d-flex align-items-center justify-content-center px-3">
-        <div class="alert alert-warning m-0" role="alert">
+        <div class="alert alert-warning m-0 shadow-sm" role="alert">
           No surveys found in the database.
         </div>
       </div>
     <% } else { %>
-      <div class="card flex-grow-1 d-flex flex-column h-50 overflow-auto">
-        <div class="card-header">
+      <div class="card shadow-sm flex-grow-1 d-flex flex-column h-50 overflow-auto">
+        <div class="card-header bg-white">
           <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-baseline gap-2">
               <span class="fw-semibold">Survey Records</span>
@@ -48,9 +54,9 @@
           </div>
         <% if (person.role ==="admin" ) {%>
             <!-- <%// include('components/surveys-addsurvey') %> -->
-            <div class="text-end">
-                <a href="/surveys/surveys" class="btn btn-primary">Clear</a>
-                <a href="/surveys/addsurvey" class="btn btn-primary">Add Survey</a>
+            <div class="text-end mt-2">
+                <a href="/surveys/surveys" class="btn btn-outline-secondary btn-sm">Clear</a>
+                <a href="/surveys/addsurvey" class="btn btn-primary btn-sm">Add Survey</a>
             </div>
         <%}%>
           <div class="mt-2">

@@ -5,7 +5,7 @@
       <th scope="col">Event Type</th>
       <th scope="col">Event Date</th>
       <th scope="col">Event Location</th>
-      <% if (person.role ==="admin" ) {%>
+      <% if (session.person.role ==="admin" ) {%>
         <th scope="col" style="width:90px;">Delete</th>
         <th scope="col" style="width:90px;">Edit</th>
       <%}%>
@@ -26,10 +26,10 @@
         <td scope="row">
           <%= eventinstance.eventlocation %>
         </td>
-        <% if (person.role ==="admin" ) {%>
+        <% if (session.person.role ==="admin" ) {%>
           <td scope="row" class="action-cell">
             <form action="/events/edit/<%= eventinstance.eventid%>/<%= eventinstance.eventstart%>" method="GET">
-              <input type="submit" name="edit" value="edit" />
+              <input type="submit" name="edit" value="Edit" />
             </form>
           </td>
           <td scope="row" class="action-cell">
