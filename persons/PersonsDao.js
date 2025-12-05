@@ -57,7 +57,7 @@ class PersonsDao {
   };
 
   async postPerson(email, password, firstname, lastname, dateofbirth, role, phone, city, state, zipcode, organization, fieldofinterest) {
-    return await knex('persons')
+    const person = await knex('persons')
       .insert({
         email, 
         password, 
@@ -73,6 +73,11 @@ class PersonsDao {
         fieldofinterest
       })
       .returning('*');
+    const states = await knex
+      .raw('SELECT unnest(enum_range(NULL::state_enum)) AS state');
+    const fieldsofinterest = await knex
+      .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
+    return {person, states, fieldsofinterest};
   }
 
   async getPerson(personid) {

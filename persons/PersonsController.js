@@ -64,8 +64,8 @@ class PersonsController {
   };
   
   async getPerson(req, res) {
-    const person = await personsService.getPerson(req.params.personid);
-    res.render('person', {errorMessage: null, person: person});
+    const {person, states, fieldsofinterest} = await personsService.getPerson(req.params.personid);
+    res.render('person', {errorMessage: null, person: person, states: states, fieldsofinterest: fieldsofinterest});
   };
   
   async postPerson(req, res) {
