@@ -32,7 +32,7 @@ class DonationsController {
     try {
       if (req.session.isLoggedIn) {
         const donations = await donationsService.getDonationsPage();
-        res.render('donations', {errorMessage: null, session: req.sesion, donations: donations});
+        res.render('donations', {errorMessage: null, session: req.session, donations: donations});
       } else {
         res.render('login', {errorMessage: 'Please login to access this page.', session: null});
       };
