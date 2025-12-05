@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('components/navbar') %>
+  <h1>Edit Profile</h1>
+  <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+    <p style="color:red;"><%= errorMessage %></p>
+  <% } %>
+  <div class="container my-4">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Edit Profile</h5>
+      </div>
+
+      <div class="card-body">
+        <form action="/persons/mi/<%= person.personid %>" method="POST" class="row g-3">
+
+        <div class="col-md-4">
+          <label for="donationdate" class="form-label">Donation Date</label>
+          <input type="datetime-local" id="donationdate" name="donationdate" value="<%= donation.donationdate %>" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+          <label for="donationamount" class="form-label">Donation Amount</label>
+          <input type="number"  step="0.01" min="0" placeholder="0.00" id="donationamount" name="donationamount" value="<%= donation.donationamount %>" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="password" class="form-label">Password</label>
+          <input type="text" id="password" name="password" value="<%= person.password %>" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="firstname" class="form-label">First Name</label>
+          <input type="text" id="firstname" name="firstname" value="<%= person.firstname %>" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="lastname" class="form-label">Last Name</label>
+          <input type="text" id="lastname" name="lastname" value="<%= person.lastname %>" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="dateofbirth" class="form-label">Date of Birth</label>
+          <input 
+            type="date" 
+            id="dateofbirth" 
+            name="dateofbirth" 
+            value="<%= person.dateofbirth?.toISOString().slice(0, 10) %>" 
+            class="form-control"
+          >
+        </div>
+
+
+        <div class="col-md-4">
+          <label for="role" class="form-label">Role</label>
+          <% if (session.person.role === "admin") { %>
+            <select name="role" id="role" class="form-select" required>
+              <option value="<%= person.role %>" selected><%= person.role %></option>
+              <option value="Admin">admin</option>
+              <option value="Participant">participant</option>
+            </select>
+          <% } else { %>
+            <input type="text" class="form-control" value="<%= person.role %>" readonly>
+          <% } %>
+        </div>
+
+        <div class="col-md-4">
+          <label for="phone" class="form-label">Phone</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            value="<%= person.phone %>" 
+            class="form-control"
+            pattern="\d{3}-\d{3}-\d{4}"
+            placeholder="123-456-7890"
+            required
+          >
+        </div>
+
+        <div class="col-md-4">
+          <label for="city" class="form-label">City</label>
+          <input type="text" id="city" name="city" value="<%= person.city %>" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+          <label for="state" class="form-label">State</label>
+          <select name="state" id="state" class="form-select" required>
+            <option value="<%= person.state %>" selected><%= person.state %></option>
+            <% for (const state of states) { %>
+              <option value="<%= state.state %>"><%= state.state %></option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="zipcode" class="form-label">Zip Code</label>
+          <input type="number" id="zipcode" name="zipcode" value="<%= person.zipcode %>" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+          <label for="organization" class="form-label">School or Employer</label>
+          <input type="text" id="organization" name="organization" value="<%= person.organization %>" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+          <label for="fieldofinterest" class="form-label">Field of Interest</label>
+          <select name="fieldofinterest" id="fieldofinterest" class="form-select" required>
+            <option value="<%= person.fieldofinterest %>" selected><%= person.fieldofinterest %></option>
+            <% for (const field of fieldsofinterest) { %>
+              <option value="<%= field.fieldofinterest %>"><%= field.fieldofinterest %></option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="col-12 text-end mt-3">
+          <a href="/persons/persons" class="btn btn-outline-primary">Back</a>
+          <button type="button" onclick="deleteProfile('<%= person.personid %>')" class="btn btn-danger">Delete Profile</button>
+          <button type="submit" class="btn btn-primary">Update Profile</button>
+        </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
