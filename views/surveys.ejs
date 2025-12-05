@@ -17,14 +17,7 @@
 <body>
 
 
-  <!-- 
-    For backend: things needed to be passed in: level of the logged in user as "level"
-    (they have to be logged in to access this page), all event names as eventnames.eventname, 
-    all event types as eventtypes.eventtype, and all surveys inner joined to persons table and events
-    and event instances as "surveys". when the search bars are run, those will need to be passed into
-    the where statement of the query as "surveys" to display the correct rows 
-  -->
-
+<!-- Brings in the navbar from the components directory -->
   <%- include('components/navbar') %>
   <main class="container-fluid vh-100 d-flex flex-column">
     <div class="py-3">
@@ -89,11 +82,11 @@
         return;
       }
       try {
-        const response = await fetch(`/surveys/${personId}/${eventStart}/${eventId}`, {
+        const response = await fetch(`/surveys/delete/${personId}/${eventStart}/${eventId}`, {
           method: 'DELETE'
         });
         if (response.ok) {
-          throw new Error('Failed to delete record.');
+          throw new Error('Failed to delete survey.');
         };
         window.location.reload();
       } catch (error) {

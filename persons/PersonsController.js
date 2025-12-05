@@ -12,7 +12,7 @@ class PersonsController {
       req.session.person = person;
       res.redirect('/persons/onboarding');
     } catch (error) {
-      res.status(500).render('signup', {errorMessage: error});
+      res.render('signup', {errorMessage: error});
     };
   };
 
@@ -31,58 +31,104 @@ class PersonsController {
         res.redirect('/persons/onboarding');
       };
     } catch (error) {
-      res.status(500).render('login', {errorMessage: error});
+      res.render('login', {errorMessage: error});
     };
   };
 
   async getOnboardingPage(req, res) {
     try {
-      const {states, fieldsOfInterest} = await personsService.getOnboardingPage();
-      res.render('onboarding', {errorMessage: null, states: states, fieldsOfInterest: fieldsOfInterest});
+      if (req.session.isLoggedIn) {
+        const {states, fieldsOfInterest} = await personsService.getOnboardingPage();
+        res.render('onboarding', {errorMessage: null, states: states, fieldsOfInterest: fieldsOfInterest});
+      } else {
+        res.render('login', {errorMessage: 'Please log in to access this page.'});
+      };
     } catch (error) {
-      res.status(500).render('login', {errorMessage: error});
-    }
+      res.render('login', {errorMessage: error});
+    };
   };
 
   async postOnboarding(req, res) {
     try {
-      const person = await personsService.postOnboarding(req.session.person.personid, req.body);
-      req.session.person = person;
-      res.render('index', {errorMessage: null, person: person});
+      if (req.session.isLoggedIn) {
+        const person = await personsService.postOnboarding(req.session.person.personid, req.body);
+        req.session.person = person;
+        res.render('index', {errorMessage: null, person: person});
+      } else {
+        res.render('login', {errorMessage: 'Please log in to perform this action.'});
+      };
     } catch (error) {
-      res.status(500).render('login', {errorMessage: error});
-    }
-  };
-
-  getHomePage(req, res) {
-    res.render('home', {errorMessage: null, person: req.session.person});
+      res.render('login', {errorMessage: error});
+    };
   };
 
   async getPersons(req, res) {
-    const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
-    res.render('persons', {errorMessage: null, person: req.session.person, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
+    try {
+      if (req.session.isLoggedIn) {
+        const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
+        res.render('persons', {errorMessage: null, session: req.session, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
+      } else {
+        res.render('login', {errorMessage: 'Please log in to access this page.'});
+      }
+    } catch (error) {
+      res.render('login', {errorMessage: error});
+    }
   };
   
   async getPerson(req, res) {
-    const person = await personsService.getPerson(req.params.personid);
-    res.render('person', {errorMessage: null, person: person});
+    try {
+      if (req.session.isLoggedIn) {
+        if (req.session.person.role === 'admin' || req.session.person.personid === Number(req.params.personid)) {
+          const {person, states, fieldsofinterest} = await personsService.getPerson(req.params.personid);
+            res.render('person', {errorMessage: null, session: req.session, person: person, states: states, fieldsofinterest: fieldsofinterest});
+        } else {
+          req.session.destroy();
+          res.clearCookie('connect.sid');
+          res.render('login', {errorMessage: 'You cannot access this page.'});
+        }
+      } else {
+        res.render('login', {errorMessage: 'Please log in to access this page.'});
+      };
+    } catch (error) {
+      res.render('login', {errorMessage: error})
+    };
   };
   
   async postPerson(req, res) {
     try {
-      const person = await personsService.postPerson(req.body);
-      res.render('person', {errorMessage: null, person: person});
+      if (req.session.isLoggedIn) {
+        if (req.session.person.role === 'admin' || req.session.person.email === req.body.email) {
+          const {person, states, fieldsofinterest} = await personsService.postPerson(req.body);
+          res.render('person', {errorMessage: null, session: req.session, person: person, states: states, fieldsofinterest: fieldsofinterest});
+        } else {
+          req.session.destroy();
+          res.clearCookie('connect.sid');
+          res.render('login', {errorMessage: 'You cannot perform this action.'})
+        }
+      } else {
+        res.render('login', {errorMessage: 'Please log in to access this page.'});
+      };
     } catch (error) {
-      res.redirect('/persons/persons');
-    }
-  }
+      res.render('login', {errorMessage: error});
+    };
+  };
   
   async deletePerson(req, res) {
     try {
-      const person = await personsService.deletePerson(req.params.personid);
-      res.status(204).json({person: person});
+      if (req.session.isLoggedIn) {
+        if (req.session.person.role === 'admin' || req.session.person.personid === req.params.personid) {
+          const person = await personsService.deletePerson(req.params.personid);
+          res.status(204).json({person: person});
+        } else {
+          req.session.destroy();
+          res.clearCookie('connect.sid');
+          res.render('login', {errorMessage: 'You cannot perform this action.'})
+        }
+      } else {
+        res.render('login', {errorMessage: 'Please log in to access this page.'});
+      }
     } catch (error) {
-      res.status(500).json({person: null});
+      res.render('login', {errorMessage: error});
     };
   };
 

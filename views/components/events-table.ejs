@@ -12,28 +12,28 @@
     </tr>
   </thead>
   <tbody>
-    <% for (event of events) { %>
+    <% for (eventinstance of eventinstances) { %>
       <tr>
         <td scope="row">
-          <%= event.eventname %>
+          <%= eventinstance.eventname %>
         </td>
         <td scope="row">
-          <%= event.eventtype %>
+          <%= eventinstance.eventtype %>
         </td>
         <td scope="row">
-          <%= new Date(event.eventstart).toLocaleDateString() %>
+          <%= new Date(eventinstance.eventstart).toLocaleDateString() %>
         </td>
         <td scope="row">
-          <%= event.eventlocation %>
+          <%= eventinstance.eventlocation %>
         </td>
         <% if (person.role ==="admin" ) {%>
           <td scope="row" class="action-cell">
-            <form action="/events/edit/<%= event.eventid%>/<%= event.eventstart%>" method="GET">
+            <form action="/events/edit/<%= eventinstance.eventid%>/<%= eventinstance.eventstart%>" method="GET">
               <input type="submit" name="edit" value="edit" />
             </form>
           </td>
           <td scope="row" class="action-cell">
-            <button onclick="deleteevent('<%= event.eventid %>', '<%= event.eventstart %>')">Delete</button>
+            <button onclick="deleteevent('<%= eventinstance.eventid %>', '<%= eventinstance.eventstart %>')">Delete</button>
           </td>
           
         <%}%>
