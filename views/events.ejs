@@ -20,13 +20,13 @@
                 </div>
                 <div class="d-flex align-items-baseline justify-content-between gap-3 mb-2">
                     <h1 class="h3 m-0">Events</h1>
-                    <% if (events && events.length) { %>
-                    <div class="text-secondary fs-6"><%= events.length %> records</div>
+                    <% if (eventinstances && eventinstances.length) { %>
+                    <div class="text-secondary fs-6"><%= eventinstances.length %> records</div>
                     <% } %>
                 </div>
             </div>
 
-            <% if (events.length===0) { %>
+            <% if (eventinstances.length===0) { %>
                 <div class="flex-grow-1 d-flex align-items-center justify-content-center px-3">
                     <div class="alert alert-warning m-0" role="alert">
                     No events found in the database.
@@ -38,16 +38,16 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-baseline gap-2">
                                 <span class="fw-semibold">Event Records</span>
-                                <% if (events && events.length) { %>
-                                    <span class="badge text-bg-secondary"><%= events.length %></span>
+                                <% if (eventinstances && eventinstances.length) { %>
+                                    <span class="badge text-bg-secondary"><%= eventinstances.length %></span>
                                 <% } %>
                             </div>
                         </div>
-                        <% if (session.person.role ==="admin" ) {%>
+                        <% if (person.role ==="admin" ) {%>
                             <!-- <%// include('components/events-addevent') %> -->
                             <div class="text-end">
                                 <a href="/events/events" class="btn btn-primary">Clear</a>
-                                <a href="/events/addevent" class="btn btn-primary">Add Event</a>
+                                <a href="/events/event" class="btn btn-primary">Add Event</a>
                             </div>
                         <%}%>
                         <div class="mt-2">
@@ -95,5 +95,5 @@
                 alert(error.message);
             }
         };
-  </script>
+    </script>
 </html>
