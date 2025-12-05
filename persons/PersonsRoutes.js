@@ -8,7 +8,6 @@ router.get('/login', personsController.getLoginPage);
 router.post('/login', personsController.postLogin);
 router.get('/onboarding', personsController.getOnboardingPage);
 router.post('/onboarding', personsController.postOnboarding);
-router.get('/home', personsController.getHomePage);
 router.get('/persons', personsController.getPersons);
 router.post('/person', personsController.postPerson);
 router.get('/mi/:personid', personsController.getPerson);
