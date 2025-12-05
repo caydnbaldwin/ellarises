@@ -14,69 +14,117 @@
   <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
     <p style="color:red;"><%= errorMessage %></p>
   <% } %>
-  <form action="/persons/edit/<%= person.personid %>" method="post">
-    <div class="col-md-3">
-      <label for="password">Password: </label>
-      <input type="text" id="password" name="password" value="<%= person.password %>" class="form-control" required>
-    </div>
-    <div class="col-md-3">
-      <label for="firstname" class="form-label">First Name</label>
-      <input type="text" id="firstname" name="firstname" value="<%= person.firstname %>" class="form-control" required>
-    </div>
-    <div class="col-md-3">
-      <label for="lastname" class="form-label">Last Name</label>
-      <input type="text" id="lastname" name="lastname" value="<%= person.lastname %>" class="form-control" required>
-    </div>
-    <div class="col-md-3">
-      <label for="dateofbirth" class="form-label">Date of Birth</label>
-      <input type="date" id="dateofbirth" name="dateofbirth" value="<%= person.dateofbirth %>" class="form-control">
-    </div>
-    <div class="col-md-3">
-      Role: <%= person.role %>
-    </div>
-    <div class="col-md-3">
-      <label for="phone" class="form-label">Phone</label>
-      <input type="tel" id="phone" name="phone" value="<%= person.phone %>" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <label for="city" class="form-label">City</label>
-      <input type="text" id="city" name="city" value="<%= person.city %>" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <label for="state" class="form-label">State</label>
-      <select name="state" id="state" class="form-select" required>
-        <option value="" disabled selected>Select a state</option>
-        <% for (const state of states) { %>
-          <option value="<%= state.state %>"><%= state.state %></option>
-        <% } %>
-      </select>
-    </div>
-    <div class="col-md-3">
-      <label for="zipcode" class="form-label">Zip Code</label>
-      <input type="number" id="zipcode" name="zipcode" value="<%= person.zipcode %>" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <label for="organization" class="form-label">School or Employer</label>
-      <input type="text" id="organization" name="organization" value="<%= person.organization %>" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <label for="fieldofinterest" class="form-label">Field of Interest</label>
-      <select name="fieldofinterest" id="fieldofinterest" class="form-select" required>
-        <option value="" disabled selected>Select a field</option>
-        <% for (const fieldofinterest of fieldsofinterest) { %>
-          <option value="<%= fieldofinterest.fieldofinterest %>"><%= fieldofinterest.fieldofinterest %></option>
-        <% } %>
-      </select>
-    </div>
+  <div class="container my-4">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Edit Profile</h5>
+      </div>
+
+      <div class="card-body">
+        <form action="/persons/edit/<%= person.personid %>" method="post" class="row g-3">
+
+        <div class="col-md-4">
+          <label for="password" class="form-label">Password</label>
+          <input type="text" id="password" name="password" value="<%= person.password %>" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="firstname" class="form-label">First Name</label>
+          <input type="text" id="firstname" name="firstname" value="<%= person.firstname %>" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="lastname" class="form-label">Last Name</label>
+          <input type="text" id="lastname" name="lastname" value="<%= person.lastname %>" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="dateofbirth" class="form-label">Date of Birth</label>
+          <input 
+            type="date" 
+            id="dateofbirth" 
+            name="dateofbirth" 
+            value="<%= person.dateofbirth.toISOString().slice(0, 10) %>" 
+            class="form-control"
+          >
+        </div>
 
 
-    <div class="col-md-3">
-      <input type="submit" value="Update Profile">
+        <div class="col-md-4">
+          <label for="role" class="form-label">Role</label>
+          <% if (session.person.role === "admin") { %>
+            <select name="role" id="role" class="form-select" required>
+              <option value="<%= person.role %>" selected><%= person.role %></option>
+              <option value="Admin">admin</option>
+              <option value="Participant">participant</option>
+            </select>
+          <% } else { %>
+            <input type="text" class="form-control" value="<%= person.role %>" readonly>
+          <% } %>
+        </div>
+
+        <div class="col-md-4">
+          <label for="phone" class="form-label">Phone</label>
+          <input 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            value="<%= person.phone %>" 
+            class="form-control"
+            pattern="\d{3}-\d{3}-\d{4}"
+            placeholder="123-456-7890"
+            required
+          >
+        </div>
+
+        <div class="col-md-4">
+          <label for="city" class="form-label">City</label>
+          <input type="text" id="city" name="city" value="<%= person.city %>" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+          <label for="state" class="form-label">State</label>
+          <select name="state" id="state" class="form-select" required>
+            <option value="<%= person.state %>" selected><%= person.state %></option>
+            <% for (const state of states) { %>
+              <option value="<%= state.state %>"><%= state.state %></option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="zipcode" class="form-label">Zip Code</label>
+          <input type="number" id="zipcode" name="zipcode" value="<%= person.zipcode %>" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+          <label for="organization" class="form-label">School or Employer</label>
+          <input type="text" id="organization" name="organization" value="<%= person.organization %>" class="form-control">
+        </div>
+
+        <div class="col-md-4">
+          <label for="fieldofinterest" class="form-label">Field of Interest</label>
+          <select name="fieldofinterest" id="fieldofinterest" class="form-select" required>
+            <option value="<%= person.fieldofinterest %>" selected><%= person.fieldofinterest %></option>
+            <% for (const field of fieldsofinterest) { %>
+              <option value="<%= field.fieldofinterest %>"><%= field.fieldofinterest %></option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="col-12 text-end mt-3">
+          <button onclick="deleteevent('<%= person.personid %>')" class="btn btn-danger">Delete Profile</button>
+          <button type="submit" class="btn btn-primary">Update Profile</button>
+        </div>
+
+        </form>
+      </div>
     </div>
-  </form>
-  <button onclick="deleteevent('<%= person.personid %>')">Delete</button>
+  </div>
+
+  
   <script>
-        async function deleteSurvey(personid) {
+        async function deleteevent(personid) {
             if (!confirm('Are you sure you want to delete your account?')) {
                 return;
             }
@@ -84,7 +132,7 @@
                 const response = await fetch(`/persons/delete/${personid}`, {
                     method: 'DELETE'
                 });
-                if (response.ok) {
+                if (!response.ok) {
                     throw new Error('Failed to delete user.');
                 };
                 window.location.reload();
@@ -93,6 +141,8 @@
                 alert(error.message);
             }
         };
+    
+
     </script>
 </body>
 </html>
