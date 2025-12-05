@@ -89,11 +89,11 @@
         return;
       }
       try {
-        const response = await fetch(`/surveys/${personId}/${eventStart}/${eventId}`, {
+        const response = await fetch(`/surveys/delete/${personId}/${eventStart}/${eventId}`, {
           method: 'DELETE'
         });
         if (response.ok) {
-          throw new Error('Failed to delete record.');
+          throw new Error('Failed to delete survey.');
         };
         window.location.reload();
       } catch (error) {

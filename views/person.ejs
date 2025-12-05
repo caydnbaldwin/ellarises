@@ -3,14 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Persons |<%= person.personid %></title>
+  <title>Profile | <%= person.personid %></title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="icon" type="image/x-icon" href="/images/bromunity/favicon.ico">
 </head>
 <body style="background-color: var(--color-cream);">
   <%- include('components/navbar') %>
-  <h1><%= person.firstname %></h1>
-  <h1><%= person.lastname %></h1>
+  <h1>Edit Profile</h1>
+  <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+    <p style="color:red;"><%= errorMessage %></p>
+  <% } %>
+  <form action="/persons/edit/<%= person.personid %>" method="post">
+    <div class="col-md-3">
+      <label for="password">Password: </label>
+      <input type="text" id="password" name="password" value="<%= person.password %>" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label for="firstname" class="form-label">First Name</label>
+      <input type="text" id="firstname" name="firstname" value="<%= person.firstname %>" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label for="lastname" class="form-label">Last Name</label>
+      <input type="text" id="lastname" name="lastname" value="<%= person.lastname %>" class="form-control" required>
+    </div>
+    <div class="col-md-3">
+      <label for="dateofbirth" class="form-label">Date of Birth</label>
+      <input type="date" id="dateofbirth" name="dateofbirth" value="<%= person.dateofbirth %>" class="form-control">
+    </div>
+    <div class="col-md-3">
+      Role: <%= person.role %>
+    </div>
+    <div class="col-md-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input type="tel" id="phone" name="phone" value="<%= person.phone %>" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label for="city" class="form-label">City</label>
+      <input type="text" id="city" name="city" value="<%= person.city %>" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label for="state" class="form-label">State</label>
+      <select name="state" id="state" class="form-select" required>
+        <option value="" disabled selected>Select a state</option>
+        <% for (const state of states) { %>
+          <option value="<%= state.state %>"><%= state.state %></option>
+        <% } %>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label for="zipcode" class="form-label">Zip Code</label>
+      <input type="number" id="zipcode" name="zipcode" value="<%= person.zipcode %>" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label for="organization" class="form-label">School or Employer</label>
+      <input type="text" id="organization" name="organization" value="<%= person.organization %>" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label for="fieldofinterest" class="form-label">Field of Interest</label>
+      <select name="fieldofinterest" id="fieldofinterest" class="form-select" required>
+        <option value="" disabled selected>Select a field</option>
+        <% for (const fieldofinterest of fieldsofinterest) { %>
+          <option value="<%= fieldofinterest.fieldofinterest %>"><%= fieldofinterest.fieldofinterest %></option>
+        <% } %>
+      </select>
+    </div>
+
+
+    <div class="col-md-3">
+      <input type="submit" value="Update Profile">
+    </div>
+  </form>
+  <button onclick="deleteevent('<%= person.personid %>')">Delete</button>
+  <script>
+        async function deleteSurvey(personid) {
+            if (!confirm('Are you sure you want to delete your account?')) {
+                return;
+            }
+            try {
+                const response = await fetch(`/persons/delete/${personid}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    throw new Error('Failed to delete user.');
+                };
+                window.location.reload();
+            } catch (error) {
+                console.error(error);
+                alert(error.message);
+            }
+        };
+    </script>
 </body>
 </html>
