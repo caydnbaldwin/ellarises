@@ -70,8 +70,8 @@ class PersonsController {
   
   async postPerson(req, res) {
     try {
-      const person = await personsService.postPerson(req.body);
-      res.render('person', {errorMessage: null, person: person});
+      const {person, states, fieldsofinterest} = await personsService.postPerson(req.body);
+      res.render('person', {errorMessage: null, person: person, states: states, fieldsofinterest: fieldsofinterest});
     } catch (error) {
       res.redirect('/persons/persons');
     }
