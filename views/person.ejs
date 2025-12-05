@@ -113,7 +113,7 @@
         </div>
 
         <div class="col-12 text-end mt-3">
-          <button onclick="deleteevent('<%= person.personid %>')" class="btn btn-danger">Delete Profile</button>
+          <button type="button" onclick="deleteProfile('<%= person.personid %>')" class="btn btn-danger">Delete Profile</button>
           <button type="submit" class="btn btn-primary">Update Profile</button>
         </div>
 
@@ -124,12 +124,12 @@
 
   
   <script>
-        async function deleteevent(personid) {
+        async function deleteProfile(personid) {
             if (!confirm('Are you sure you want to delete your account?')) {
                 return;
             }
             try {
-                const response = await fetch(`/persons/delete/${personid}`, {
+                const response = await fetch(`/persons/mi/${personid}`, {
                     method: 'DELETE'
                 });
                 if (!response.ok) {
