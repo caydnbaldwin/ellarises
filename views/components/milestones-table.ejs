@@ -21,8 +21,10 @@
     return "Other";
   }
 %>
-<table class="table table-striped table-hover milestones-table w-auto mx-auto">
-  <thead class="table">
+<div class="overflow-auto" style="max-height: 65vh;">
+  <div class="table-responsive">
+<table class="table table-hover align-middle mb-0 milestones-table w-auto mx-auto">
+  <thead class="bg-danger-subtle text-danger-emphasis">
     <tr>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
@@ -31,20 +33,15 @@
       <th scope="col">Milestone Type</th>
       <th scope="col">Milestone Date</th>
       <% if (session.person.role ==="admin" ) {%>
-        <th scope="col" style="width:90px;">Delete</th>
-        <th scope="col" style="width:90px;">Edit</th>
+        <th scope="col" class="text-end" style="width:180px;">Actions</th>
       <%}%>
     </tr>
   </thead>
   <tbody>
     <% for (milestone of milestones) { %>
       <tr>
-        <td scope="row">
-          <%= milestone.firstname %>
-        </td>
-        <td scope="row">
-          <%= milestone.lastname %>
-        </td>
+        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= milestone.firstname %></div></td>
+        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= milestone.lastname %></div></td>
         <td scope="row">
           <%= milestone.milestonenumber %>
         </td>
@@ -64,21 +61,23 @@
         <td scope="row">
           <%= new Date(milestone.milestonedate).toLocaleDateString() %>
         </td>
-        <% if (session.person.role ==="admin" ) {%>
-          <td scope="row" class="action-cell">
-            <form action="/milestones/edit/<%= milestone.personid%>/<%= milestone.milestonenumber%>" method="GET">
-              <input type="submit" name="edit" value="edit" />
-            </form>
-          </td>
-          <td scope="row" class="action-cell">
-            <button onclick="deleteMilestone('<%= milestone.personid %>', '<%= milestone.milestonenumber %>')">Delete</button>
+        <% if (session.person.role ==="admin" ) { %>
+          <td>
+            <div class="d-flex justify-content-end gap-2">
+              <form action="/milestones/edit/<%= milestone.personid%>/<%= milestone.milestonenumber%>" method="GET">
+                <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-secondary" />
+              </form>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteMilestone('<%= milestone.personid %>', '<%= milestone.milestonenumber %>')">Delete</button>
+            </div>
           </td>
           
-        <%}%>
+        <% } %>
       </tr>
     <% } %>
   </tbody>
 </table>
+  </div>
+</div>
 
 <script>
   async function deleteMilestone(personid, milestonenumber) {
