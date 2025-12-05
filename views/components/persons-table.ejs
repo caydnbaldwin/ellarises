@@ -16,8 +16,11 @@
       <th scope="col">Organization</th>
       <th scope="col">Field of Interest</th>
       <th scope="col">Total Donations</th>
-      <th scope="col" class="text-center">Edit</th>
-      <th scope="col" class="text-center">Delete</th>
+      <th scope="col">Milestones</th>
+      <% if (session.person.role === "admin") {%>
+        <th scope="col" class="text-center">Edit</th>
+        <th scope="col" class="text-center">Delete</th>
+      <%}%>
     </tr>
     </thead>
     <tbody>
@@ -65,14 +68,21 @@
         <td>
           <%= person.totaldonations %>
         </td>
-        <td class="text-center">
-          <form action="/persons/mi/<%= person.personid%>" method="GET" class="d-inline">
-            <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
+        <td>
+          <form action="/persons/milestones/<%= person.personid %>" method="GET" class="d-inline">
+            <button type="submit" class="btn btn-outline-success">Milestones</button>
           </form>
         </td>
-        <td class="text-center">
-          <button class="btn btn-sm btn-outline-danger" onclick="deletePerson('<%= person.personid %>')">Delete</button>
-        </td>
+        <% if (session.person.role === "admin") {%>
+          <td class="text-center">
+            <form action="/persons/mi/<%= person.personid%>" method="GET" class="d-inline">
+              <button type="submit" class="btn btn-sm btn-outline-primary">Edit</button>
+            </form>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-outline-danger" onclick="deletePerson('<%= person.personid %>')">Delete</button>
+          </td>
+        <%}%>
       </tr>
     <% } %>
     </tbody>
