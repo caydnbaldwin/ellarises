@@ -94,11 +94,13 @@ class PersonsDao {
       .select('*')
       .from('persons')
       .where('personid', personid);
+    const roles = await knex
+    .raw('SELECT unnest(enum_range(NULL::role_enum)) AS role');
     const states = await knex
       .raw('SELECT unnest(enum_range(NULL::state_enum)) AS state');
     const fieldsofinterest = await knex
       .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
-    return {person, states, fieldsofinterest};
+    return {person, roles, states, fieldsofinterest};
   };
 
   async deletePerson(personid) {

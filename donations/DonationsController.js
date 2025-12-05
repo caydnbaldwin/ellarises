@@ -3,11 +3,7 @@ const donationsService = require('./DonationsService');
 class DonationsController {
   getDonatePage(req, res) {
     try {
-      if (req.session.isLoggedIn) {
-        res.render('donate', {errorMessage: null, session: req.session, donation: null});
-      } else {
-        res.render('login', {errorMessage: 'Please login to access this page.', session: null});
-      };
+      res.render('donate', {errorMessage: null, session: req.session, donation: null});
     } catch (error) {
       res.render('login', {errorMessage: error, session: null});
     };
