@@ -1,3 +1,9 @@
+<!-- This is where anyone, signed up or not, can make a donation. If they are signed up it asks them if they want to 
+ log in and then they can make their donation. If they are not signed up, they can still make their donation
+ but in order to track it we need to get an email and password from them to put in with their donation amount
+ and date into the donations table. -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,6 +58,7 @@
   </style>
 </head>
 <body>
+  <!-- Global nav bar -->
   <%- include('components/navbar') %>
 
   <div class="container py-5">
@@ -62,6 +69,7 @@
         <div class="donation-card">
           <div class="card-body">
             <div class="row align-items-center">
+              <!-- This is the form where the donation information is entered, injected from components. -->
               <%- include('components/donate-form') %>
             </div>
           </div>

@@ -1,3 +1,6 @@
+<!-- This is the page that displays all milestones achieved. Normal participants are allowed to
+ see it, but only admin are able to add, edit, delete, etc.   -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,13 +11,7 @@
 </head>
 
 <body>
-  <!-- For backend: in your knex query, do milestonetitle like '%' and if it is like one of these: 
-        '%Diploma%', 'BS%', 'BA%', 'MS%', 'MBA', '%MFA%', 'AA%', 'AS%', 'PHD%' then it is a "Diploma" milestone type
-        If it is like "%Project%" then it is a "Project" milestone type
-        Otherwise it is an "Other" milestone type -->
-
-  <!-- You'll also need to join persons table to get the first and last name -->
-
+  
 
   <%- include('components/navbar') %>
     <main class="container-fluid vh-100 d-flex flex-column">
@@ -25,6 +22,7 @@
         </div>
         <div class="d-flex align-items-baseline justify-content-between gap-3 mb-2">
           <h1 class="h3 m-0">Milestones</h1>
+          <!-- Display for the database -->
           <% if (milestones && milestones.length) { %>
             <div class="text-secondary fs-6">
               <%= milestones.length %> records
@@ -32,7 +30,7 @@
             <% } %>
         </div>
       </div>
-
+<!-- If there were no milestones or an issue with the query -->
       <% if (milestones.length===0) { %>
         <div class="flex-grow-1 d-flex align-items-center justify-content-center px-3">
           <div class="alert alert-warning m-0" role="alert">
@@ -62,6 +60,8 @@
                   <div class="mt-2">
                     <div class="row g-2">
                       <div class="col-12 col-lg-4">
+                        <!-- This is the search functionality for milestones, they are able to search by
+                         email or by date. -->
                         <%- include('components/milestones-email') %>
                       </div>
                       <div class="col-12 col-lg-4">

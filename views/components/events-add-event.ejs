@@ -1,8 +1,5 @@
 <form action="/events/add-event" method="POST" class="row g-3">
     
-	<!-- For backend- we will have to see if the eventname already exists and then use its event id. If not, we will need
-    o assign it an event id.  -->
-    
     
     <div class="col-md-3">
 		<label for="eventname" class="form-label">Name</label>
@@ -22,7 +19,7 @@
 	</div>
 	<div class="col-md-3">
 		<label for="eventregistrationdeadline" class="form-label">Registration Deadline</label>
-		<input type="datetime" id="eventregistrationdeadline" name="eventregistrationdeadline" class="form-control" required>
+		<input type="datetime-local" id="eventregistrationdeadline" name="eventregistrationdeadline" class="form-control" required>
 	</div>
 
 	

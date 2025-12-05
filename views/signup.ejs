@@ -1,3 +1,7 @@
+<!-- This page is where the user can come to sign up if they haven't yet. It is simple
+ and only requires an email and password (and then will take you to onboarding page if you
+ are ready to enter the rest of your info) -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,6 +59,7 @@
                   <%= errorMessage %>
                 </div>
               <% } %>
+              <!-- This is where the user puts in their email and password to sign up -->
               <form action="/persons/signup" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
@@ -69,7 +74,7 @@
                 <div class="d-grid mb-2">
                   <button type="submit" class="btn btn-lg text-white" style="background-color: #F9AFB1; border-color: #F9AFB1;">Sign Up</button>
                 </div>
-
+                <!-- Or they can log in if they already have an account -->
                 <div class="text-center">
                   <p class="tiny-muted mb-0">Already have an account? <a href="/persons/login" style="color:var(--c2); font-weight:600; text-decoration:none;">Login</a></p>
                 </div>
@@ -80,6 +85,7 @@
       </div>
     </div>
     <div style="bottom:0; width:100%; background:transparent;">
+      <!-- Calls the teapot route for the 418 status code functionality! -->
       <center><p>&copy; 2025 Bromunity Studios <a href="/eggs/teapot" style="text-decoration:none; color:var(--c7);">☕</a></p></center>
     </div>
   </div>
