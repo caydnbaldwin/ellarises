@@ -60,7 +60,7 @@ class PersonsController {
 
   async getPersons(req, res) {
     const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
-    res.render('persons', {errorMessage: null, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
+    res.render('persons', {errorMessage: null, person: req.session.person, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
   };
   
   async getPerson(req, res) {
