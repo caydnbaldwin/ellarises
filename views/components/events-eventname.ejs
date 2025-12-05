@@ -1,10 +1,19 @@
-<form onsubmit="event.preventDefault(); window.location.href='/events/eventname/' + document.getElementById('eventname').value;">
-    <label for="eventname" class="form-label">Event Name</label>
-    <select name="eventname" id="eventname" required>
-        <option value="" disabled selected>Select an event</option>
-        <% for (const eventinstance of eventinstances) { %>
-            <option value="<%= eventinstance.eventname %>"><%= eventinstance.eventname %></option>
-        <% } %>
-    </select>
-    <button type="submit">Search</button>
+<%
+    const eventNames = Array.from(new Set((eventinstances || []).map(function(instance) {
+        return instance.eventname;
+    }).filter(Boolean)));
+%>
+<form class="row g-2 align-items-end" onsubmit="return handleEventFilter(event, 'search-eventname', '/events/eventname/');">
+    <div class="col">
+        <label for="search-eventname" class="form-label">Event Name</label>
+        <select name="eventname" id="search-eventname" class="form-select" required>
+            <option value="" disabled selected>Select an event</option>
+            <% eventNames.forEach(function(name) { %>
+                <option value="<%= name %>"><%= name %></option>
+            <% }); %>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
 </form>
