@@ -1,4 +1,4 @@
-<form action="/surveys/byeventname" method="get">
+<form onsubmit="event.preventDefault(); window.location.href='/surveys/eventname/' + document.getElementById('eventname').value;">
     <label for="eventname" class="form-label">Event Name</label>
     <select name="eventname" id="eventname" required>
         <option value="" disabled selected>Select an event</option>
