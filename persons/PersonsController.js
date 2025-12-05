@@ -78,9 +78,9 @@ class PersonsController {
   async getPerson(req, res) {
     try {
       if (req.session.isLoggedIn) {
-        if (req.session.person.role === 'admin' || req.session.person.personid === req.params.personid) {
+        if (req.session.person.role === 'admin' || req.session.person.personid === Number(req.params.personid)) {
           const {person, states, fieldsofinterest} = await personsService.getPerson(req.params.personid);
-          res.render('person', {errorMessage: null, session: req.session, person: person, states: states, fieldsofinterest: fieldsofinterest});
+            res.render('person', {errorMessage: null, session: req.session, person: person, states: states, fieldsofinterest: fieldsofinterest});
         } else {
           req.session.destroy();
           res.clearCookie('connect.sid');
@@ -99,7 +99,7 @@ class PersonsController {
       if (req.session.isLoggedIn) {
         if (req.session.person.role === 'admin' || req.session.person.email === req.body.email) {
           const {person, states, fieldsofinterest} = await personsService.postPerson(req.body);
-          res.render('person', {errorMessage: null, person: person, states: states, fieldsofinterest: fieldsofinterest});
+          res.render('person', {errorMessage: null, session: req.session, person: person, states: states, fieldsofinterest: fieldsofinterest});
         } else {
           req.session.destroy();
           res.clearCookie('connect.sid');
