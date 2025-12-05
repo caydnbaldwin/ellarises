@@ -66,7 +66,7 @@ class PersonsController {
     try {
       if (req.session.isLoggedIn) {
         const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
-        res.render('persons', {errorMessage: null, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
+        res.render('persons', {errorMessage: null, session: req.session, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
       } else {
         res.render('login', {errorMessage: 'Please log in to access this page.'});
       }
@@ -99,7 +99,7 @@ class PersonsController {
       if (req.session.isLoggedIn) {
         if (req.session.person.role === 'admin' || req.session.person.email === req.body.email) {
           const {person, states, fieldsofinterest} = await personsService.postPerson(req.body);
-          res.render('person', {errorMessage: null, person: person, states: states, fieldsofinterest: fieldsofinterest});
+          res.render('person', {errorMessage: null, session: req.session, person: person, states: states, fieldsofinterest: fieldsofinterest});
         } else {
           req.session.destroy();
           res.clearCookie('connect.sid');
