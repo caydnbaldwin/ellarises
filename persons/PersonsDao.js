@@ -42,11 +42,31 @@ class PersonsDao {
       .returning('*');
   };
 
+  async getPersons() {
+    const persons = await knex
+      .select('*')
+      .from('persons');
+    const roles = await knex
+      .raw('SELECT unnest(enum_range(NULL::role_enum)) AS role');
+    const states = await knex
+      .raw('SELECT unnest(enum_range(NULL::state_enum)) AS state');
+    const fieldsofinterest = await knex
+      .raw('SELECT unnest(enum_range(NULL::field_of_interest_enum)) AS fieldofinterest');
+    return {persons, roles, states, fieldsofinterest};
+  };
+
   async getPerson(personid) {
     return await knex
       .select('*')
       .from('persons')
       .where('personid', personid);
+  };
+
+  async deletePerson(personid) {
+    return await knex('persons')
+      .where('personid', personid)
+      .del()
+      .returning('*');
   };
 };
 

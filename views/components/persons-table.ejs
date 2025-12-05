@@ -1,0 +1,78 @@
+<table class="table table-striped table-hover persons-table w-auto mx-auto">
+  <thead class="table">
+    <tr>
+      <th scope="col">Person ID</th>
+      <th scope="col">Email</th>
+      <th scope="col">Password</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Date Of Birth</th>
+      <th scope="col">Role</th>
+      <th scope="col">Phone</th>
+      <th scope="col">City</th>
+      <th scope="col">State</th>
+      <th scope="col">Zip Code</th>
+      <th scope="col">Organization</th>
+      <th scope="col">Field of Interest</th>
+      <th scope="col">Total Donations</th>
+      <th scope="col" style="width:90px;">Edit</th>
+      <th scope="col" style="width:90px;">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for (person of persons) { %>
+      <tr>
+        <td scope="row">
+          <%= person.personid %>
+        </td>
+        <td scope="row">
+          <%= person.email %>
+        </td>
+        <td scope="row">
+          <%= person.password %>
+        </td>
+        <td scope="row">
+          <%= person.firstname %>
+        </td>
+        <td scope="row">
+          <%= person.lastname %>
+        </td>
+        <td scope="row">
+          <%= new Date(person.dateofbirth).toLocaleDateString() %>
+        </td>
+        <td scope="row">
+          <%= person.role %>
+        </td>
+        <td scope="row">
+          <%= person.phone %>
+        </td>
+        <td scope="row">
+          <%= person.city %>
+        </td>
+        <td scope="row">
+          <%= person.state %>
+        </td>
+        <td scope="row">
+          <%= person.zipcode %>
+        </td>
+        <td scope="row">
+          <%= person.organization %>
+        </td>
+        <td scope="row">
+          <%= person.fieldofinterest %>
+        </td>
+        <td scope="row">
+          <%= person.totaldonations %>
+        </td>
+        <td scope="row" class="action-cell">
+          <form action="/persons/mi/<%= person.personid%>" method="GET">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td scope="row" class="action-cell">
+          <button onclick="deletePerson('<%= person.personid %>')">Delete</button>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>

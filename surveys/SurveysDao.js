@@ -12,7 +12,7 @@ class SurveysDao {
       .where('a.registrationstatus', 'attended')
       .orderBy('eventend', 'desc')
       .select('*');
-  }
+  };
 
   async getSurveysEmail(email) {
     return await knex('attendance as a')
@@ -26,7 +26,7 @@ class SurveysDao {
       .orderBy('eventend', 'desc')
       .select('*')
       .where('email', email);
-  }
+  };
 
   async getSurveysEventname(eventname) {
     return await knex('attendance as a')
@@ -40,7 +40,7 @@ class SurveysDao {
       .orderBy('eventend', 'desc')
       .select('*')
       .where('eventname', eventname);
-  }
+  };
 
   async getSurveysEventtype(eventtype) {
     return await knex('attendance as a')
@@ -54,7 +54,7 @@ class SurveysDao {
       .orderBy('eventend', 'desc')
       .select('*')
       .where('eventtype', eventtype);
-  }
+  };
 
   async deleteSurvey(personid, eventstart, eventid) {
     return await knex('survey')
@@ -63,7 +63,7 @@ class SurveysDao {
       .andWhere('eventid', eventid)
       .del()
       .returning('*');
-  }
+  };
 };
 
 module.exports = new SurveysDao();

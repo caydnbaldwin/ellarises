@@ -58,10 +58,27 @@ class PersonsController {
     res.render('home', {errorMessage: null, person: req.session.person});
   };
 
+  async getPersons(req, res) {
+    const {persons, roles, states, fieldsofinterest} = await personsService.getPersons();
+    console.log('roles:', roles);
+    console.log('states:', states);
+    console.log('fieldsofinterest:', fieldsofinterest);
+    res.render('persons', {errorMessage: null, persons: persons, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
+  };
+
   async getPerson(req, res) {
     const person = await personsService.getPerson(req.params.personid);
     res.render('person', {errorMessage: null, person: person});
-  }
+  };
+
+  async deletePerson(req, res) {
+    try {
+      const person = await personsService.deletePerson(req.params.personid);
+      res.status(204).json({person: person});
+    } catch (error) {
+      res.status(500).json({person: null});
+    };
+  };
 
   getLogout(req, res) {
     req.session.destroy();

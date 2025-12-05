@@ -48,9 +48,27 @@ class PersonsService {
     };
   };
 
+  async getPersons() {
+    try {
+      const {persons, roles, states, fieldsofinterest} = await personsDao.getPersons();
+      return {persons, roles: roles.rows, states: states.rows, fieldsofinterest: fieldsofinterest.rows};
+    } catch (error) {
+      throw error;
+    };
+  };
+
   async getPerson(personid) {
     try {
       const person = await personsDao.getPerson(personid);
+      return person[0];
+    } catch (error) {
+      throw error;
+    };
+  };
+
+  async deletePerson(personid) {
+    try {
+      const person = await personsDao.deletePerson(personid);
       return person[0];
     } catch (error) {
       throw error;
