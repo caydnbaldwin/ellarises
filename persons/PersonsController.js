@@ -79,8 +79,8 @@ class PersonsController {
     try {
       if (req.session.isLoggedIn) {
         if (req.session.person.role === 'admin' || req.session.person.personid === Number(req.params.personid)) {
-          const {person, states, fieldsofinterest} = await personsService.getPerson(req.params.personid);
-            res.render('person', {errorMessage: null, session: req.session, person: person, states: states, fieldsofinterest: fieldsofinterest});
+          const {person, roles, states, fieldsofinterest} = await personsService.getPerson(req.params.personid);
+            res.render('person', {errorMessage: null, session: req.session, person: person, roles: roles, states: states, fieldsofinterest: fieldsofinterest});
         } else {
           req.session.destroy();
           res.clearCookie('connect.sid');

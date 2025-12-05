@@ -59,8 +59,8 @@ class PersonsService {
 
   async getPerson(personid) {
     try {
-      const {person, states, fieldsofinterest} = await personsDao.getPerson(personid);
-      return {person: person[0], states: states.rows, fieldsofinterest: fieldsofinterest.rows};
+      const {person, roles, states, fieldsofinterest} = await personsDao.getPerson(personid);
+      return {person: person[0], roles: roles.rows, states: states.rows, fieldsofinterest: fieldsofinterest.rows};
     } catch (error) {
       throw error;
     };
