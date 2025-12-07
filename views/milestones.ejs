@@ -3,82 +3,88 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Milestones Maintenance</title>
+  <title>Milestones</title>
 </head>
-
-<body>
-  
-
+<body class="bg-light">
   <%- include('components/navbar') %>
-    <main class="container-fluid vh-100 d-flex flex-column">
-      <div class="py-3">
-        <div class="card-body">
-          <h1 class="h4 mb-3">Add Milestone</h1>
-          <%- include('components/milestones-add-milestone') %>
-        </div>
-        <div class="d-flex align-items-baseline justify-content-between gap-3 mb-2">
-          <h1 class="h3 m-0">Milestones</h1>
-          <!-- Display for the database -->
-          <% if (milestones && milestones.length) { %>
-            <div class="text-secondary fs-6">
-              <%= milestones.length %> records
+
+  <main class="container-fluid px-3 px-md-4">
+    <div class="row g-4">
+      <% if (session.person?.role === 'admin') { %>
+        <div class="col-12">
+          <div class="accordion mt-4" id="milestonesAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingAddMilestone">
+                <button class="accordion-button bg-danger-subtle text-danger-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAddMilestone" aria-expanded="false" aria-controls="collapseAddMilestone">
+                  Add Milestone
+                </button>
+              </h2>
+              <div id="collapseAddMilestone" class="accordion-collapse collapse" aria-labelledby="headingAddMilestone" data-bs-parent="#milestonesAccordion">
+                <div class="accordion-body">
+                  <%- include('components/milestones-add-milestone') %>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      <% } %>
+
+      <div class="col-12">
+        <div class="card shadow-sm mt-4 mt-md-0">
+          <div class="card-body">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+              <div class="d-flex align-items-center gap-2">
+                <h2 class="h4 mb-0">Milestones</h2>
+                <% if (milestones?.length) { %>
+                  <span class="badge bg-danger-subtle text-danger-emphasis"><%= milestones.length %></span>
+                <% } %>
+              </div>
+              <% if (session.person?.role === 'admin' && milestones?.length) { %>
+                <a href="/milestones/milestones" class="btn btn-outline-secondary btn-sm">Clear Filters</a>
+              <% } %>
+            </div>
+
+            <% if (milestones?.length) { %>
+              <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6 col-lg-4">
+                  <%- include('components/milestones-email') %>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                  <%- include('components/milestones-milestonedate') %>
+                </div>
+              </div>
+
+              <%- include('components/milestones-table', { milestones, currentUser: session.person }) %>
+            <% } else { %>
+              <div class="alert alert-warning mb-0" role="alert">No milestones found in the database.</div>
             <% } %>
+          </div>
         </div>
       </div>
-<!-- If there were no milestones or an issue with the query -->
-      <% if (milestones.length===0) { %>
-        <div class="flex-grow-1 d-flex align-items-center justify-content-center px-3">
-          <div class="alert alert-warning m-0" role="alert">
-            No milestones found in the database.
-          </div>
-        </div>
-        <% } else { %>
-          <div class="card flex-grow-1 d-flex flex-column h-50 overflow-auto">
-            <div class="card-header">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-baseline gap-2">
-                  <span class="fw-semibold">Milestone Records</span>
-                  <% if (milestones && milestones.length) { %>
-                    <span class="badge text-bg-secondary">
-                      <%= milestones.length %>
-                    </span>
-                    <% } %>
-                </div>
-              </div>
-              <% if (person.role==="admin" ) {%>
+    </div>
+  </main>
 
-                <div class="text-end">
-                  <a href="/milestones/milestones" class="btn btn-primary">Clear</a>
-                  <a href="/milestones/addmilestone" class="btn btn-primary">Add Milestone</a>
-                </div>
-                <%}%>
-                  <div class="mt-2">
-                    <div class="row g-2">
-                      <div class="col-12 col-lg-4">
-                        <!-- This is the search functionality for milestones, they are able to search by
-                         email or by date. -->
-                        <%- include('components/milestones-email') %>
-                      </div>
-                      <div class="col-12 col-lg-4">
-                        <%- include('components/milestones-milestonedate') %>
-                      </div>
-                    </div>
-                  </div>
-            </div>
+  <script>
+    function handleMilestoneFilter(submitEvent, elementId, basePath) {
+      submitEvent.preventDefault();
+      const element = document.getElementById(elementId);
 
-            <div class="card-body p-0 overflow-auto">
-              <div class="table-responsive"><br>
-                <%- include('components/milestones-table') %>
-              </div>
-            </div>
-          </div>
-          <% } %>
-    </main>
+      if (!element) {
+        return false;
+      }
+
+      const value = element.value;
+
+      if (!value) {
+        return false;
+      }
+
+      window.location.href = `${basePath}${encodeURIComponent(value)}`;
+      return false;
+    }
+  </script>
 </body>
-
 </html>

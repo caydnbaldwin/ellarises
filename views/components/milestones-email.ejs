@@ -1,5 +1,9 @@
-<form onsubmit="event.preventDefault(); window.location.href='/milestones/email/' + document.getElementById('email').value;">
-    <label for="email">Search for a specific milestone by participant email</label>
-    <input type="text" id="email" name="email" default="Enter a participant's email">
-    <button type="submit">Search</button>
+<form class="row g-2 align-items-end" onsubmit="return handleMilestoneFilter(event, 'search-milestone-email', '/milestones/email/');">
+    <div class="col">
+        <label for="search-milestone-email" class="form-label">Participant Email</label>
+        <input type="email" id="search-milestone-email" name="email" class="form-control" required>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
 </form>

@@ -1,100 +1,110 @@
-<% 
+<%
   function getMilestoneType(title) {
-    if (!title) return "Other";
-    const t = String(title).toUpperCase();
+    if (!title) {
+      return 'Other';
+    }
+
+    const normalizedTitle = String(title).toUpperCase();
+
     if (
-      t.includes("DIPLOMA") ||
-      t.startsWith("BS") ||
-      t.startsWith("BA") ||
-      t.startsWith("MS") ||
-      t.includes("MBA") ||
-      t.includes("MFA") ||
-      t.startsWith("AA") ||
-      t.startsWith("AS") ||
-      t.includes("PHD")
+      normalizedTitle.includes('DIPLOMA') ||
+      normalizedTitle.startsWith('BS') ||
+      normalizedTitle.startsWith('BA') ||
+      normalizedTitle.startsWith('MS') ||
+      normalizedTitle.includes('MBA') ||
+      normalizedTitle.includes('MFA') ||
+      normalizedTitle.startsWith('AA') ||
+      normalizedTitle.startsWith('AS') ||
+      normalizedTitle.includes('PHD')
     ) {
-      return "Diploma";
+      return 'Diploma';
     }
-    if (t.includes("PROJECT")) {
-      return "Project";
+
+    if (normalizedTitle.includes('PROJECT')) {
+      return 'Project';
     }
-    return "Other";
+
+    return 'Other';
   }
 %>
-<div class="overflow-auto" style="max-height: 65vh;">
-  <div class="table-responsive">
-<table class="table table-hover align-middle mb-0 milestones-table w-auto mx-auto">
-  <thead class="bg-danger-subtle text-danger-emphasis">
-    <tr>
-      <th scope="col">First Name</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">Milestone Number</th>
-      <th scope="col">Milestone Title</th>
-      <th scope="col">Milestone Type</th>
-      <th scope="col">Milestone Date</th>
-      <% if (session.person.role ==="admin" ) {%>
-        <th scope="col" class="text-end" style="width:180px;">Actions</th>
-      <%}%>
-    </tr>
-  </thead>
-  <tbody>
-    <% for (milestone of milestones) { %>
-      <tr>
-        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= milestone.firstname %></div></td>
-        <td class="fw-semibold text-nowrap"><div class="text-danger-emphasis"><%= milestone.lastname %></div></td>
-        <td scope="row">
-          <%= milestone.milestonenumber %>
-        </td>
-        <td scope="row">
-          <%= milestone.milestonetitle %>
-        </td>
-        <% const milestonetype = getMilestoneType(milestone.milestonetitle); %>
-        <td scope="row">
-            <% if (milestonetype === "Diploma") { %>
-                Diploma
-            <% } else if (milestonetype === "Project") { %>
-                Project
-            <% } else { %>
-                Other
-            <% } %>
-        </td>
-        <td scope="row">
-          <%= new Date(milestone.milestonedate).toLocaleDateString() %>
-        </td>
-        <% if (session.person.role ==="admin" ) { %>
-          <td>
-            <div class="d-flex justify-content-end gap-2">
-              <form action="/milestones/edit/<%= milestone.personid%>/<%= milestone.milestonenumber%>" method="GET">
-                <input type="submit" name="edit" value="Edit" class="btn btn-sm btn-outline-secondary" />
-              </form>
-              <button class="btn btn-sm btn-outline-danger" onclick="deleteMilestone('<%= milestone.personid %>', '<%= milestone.milestonenumber %>')">Delete</button>
-            </div>
-          </td>
-          
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="bg-danger-subtle text-danger-emphasis">
+      <tr class="text-uppercase small">
+        <th scope="col">Participant</th>
+        <th scope="col">Milestone</th>
+        <th scope="col">Type</th>
+        <th scope="col">Date</th>
+        <% if (currentUser?.role === 'admin') { %>
+          <th scope="col" class="text-end">Actions</th>
         <% } %>
       </tr>
-    <% } %>
-  </tbody>
-</table>
-  </div>
+    </thead>
+    <tbody>
+      <% milestones.forEach(function(milestone) { %>
+        <% const milestoneType = getMilestoneType(milestone.milestonetitle); %>
+        <tr>
+          <td class="text-nowrap">
+            <div class="fw-semibold text-danger-emphasis"><%= milestone.firstname %> <%= milestone.lastname %></div>
+            <div class="small text-muted">ID: <%= milestone.personid %> · Milestone #<%= milestone.milestonenumber %></div>
+          </td>
+          <td>
+            <% if (milestone.milestonetitle) { %>
+              <div class="fw-semibold"><%= milestone.milestonetitle %></div>
+            <% } else { %>
+              <span class="text-muted">—</span>
+            <% } %>
+          </td>
+          <td class="text-nowrap">
+            <% if (milestoneType === 'Diploma') { %>
+              <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">Diploma</span>
+            <% } else if (milestoneType === 'Project') { %>
+              <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">Project</span>
+            <% } else { %>
+              <span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis">Other</span>
+            <% } %>
+          </td>
+          <td class="text-nowrap">
+            <% const milestoneDate = milestone.milestonedate ? new Date(milestone.milestonedate) : null; %>
+            <% if (milestoneDate && !Number.isNaN(milestoneDate.getTime())) { %>
+              <%= milestoneDate.toLocaleDateString('en-US', { dateStyle: 'medium' }) %>
+            <% } else { %>
+              <span class="text-muted">—</span>
+            <% } %>
+          </td>
+          <% if (currentUser?.role === 'admin') { %>
+            <td>
+              <div class="d-flex justify-content-end gap-2">
+                <form action="/milestones/edit/<%= milestone.personid %>/<%= milestone.milestonenumber %>" method="GET" class="m-0">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </form>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteMilestone('<%= milestone.personid %>', '<%= milestone.milestonenumber %>')">Delete</button>
+              </div>
+            </td>
+          <% } %>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
 </div>
-
 <script>
-  async function deleteMilestone(personid, milestonenumber) {
+  async function deleteMilestone(personId, milestoneNumber) {
     if (!confirm('Are you sure you want to delete this milestone?')) {
       return;
     }
+
     try {
-      const response = await fetch(`/milestones/delete/${personid}/${milestonenumber}`, {
+      const response = await fetch(`/milestones/delete/${personId}/${milestoneNumber}`, {
         method: 'DELETE'
       });
-      if (response.ok) {
+
+      if (!response.ok) {
         throw new Error('Failed to delete milestone.');
-      };
+      }
+
       window.location.reload();
     } catch (error) {
-      console.error(error);
       alert(error.message);
     }
-  };
+  }
 </script>
